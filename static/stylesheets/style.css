@@ -1,3 +1,73 @@
-body {
-  background-image: url("/static/assets//images/background.jpg");
+html {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.background-image {
+  position: absolute;
+  left: -10px;
+  top: -10px;
+  background-image: url("/static/assets/images/background.jpg");
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+  z-index: -1;
+} 
+
+
+.main-menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.main-menu-container h1 {
+  color: white;
+  font-size: 5rem;
+}
+
+.main-menu-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 400px;
+  padding: 1.5rem;
+  color: white;
+  background-color: #1A1A1A;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+}
+
+.main-menu-option {
+  color: #737373;
+  cursor: pointer;
+  position: relative;
+}
+
+.main-menu-option::before {
+  content: ">> ";
+  color: transparent;
+  position: absolute;
+  left: -25px; 
+  transition: color 0.3s;
+}
+
+.main-menu-option:hover {
+  color: #FEBD59;
+  transition: color 0.3s;
+}
+
+.main-menu-option:hover::before {
+  color: #FEBD59;
 }
