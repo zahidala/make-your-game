@@ -109,7 +109,6 @@ body {
   color: #FEBD59;
 }
 
-<<<<<<< Updated upstream
 .game-container {
   display: flex;
   flex-direction: column;
@@ -203,7 +202,6 @@ body {
   mask-size: 8px 8px;
   mask-repeat: repeat-x;
 }
-=======
 .grid-container {
   display: flex;
   align-items: center;
@@ -234,4 +232,3 @@ body {
 .T-shape { background-color: #8c52ff; }
 .L-shape, .J-shape { background-color: #38b6ff; }
 .Z-shape, .S-shape { background-color: #d33c2d; }
->>>>>>> Stashed changes
