@@ -32,7 +32,7 @@ body {
   height: 100vh;
 }
 
-.main-menu-container h1 {
+.heading {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,7 +43,7 @@ body {
   color: white;
 }
 
-.main-menu-container h1::after {
+.heading::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -109,4 +109,96 @@ body {
   color: #FEBD59;
 }
 
+.game-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  width: 80%;
+  gap: 2rem;
+}
 
+.game-container .heading {
+  font-size: 6rem;
+  margin: 0;
+  padding-top: 2rem;
+}
+
+.game-grid-container {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 0.5fr;
+  gap: 1rem;
+  background-color: #1A1A1A;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.game-grid-options-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  /* border: 1px solid red; */
+}
+
+.game-grid-options-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: white;
+}
+
+.game-grid-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  cursor: pointer;
+}
+
+.game-grid-option-icon {
+  background: linear-gradient(to bottom, #000000 0%, #3533cd 90%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  color: #A6A6A6;
+  border: 2px solid #737373;
+}
+
+.game-grid-option span {
+  color: #737373;
+  font-size: 0.8rem;
+}
+
+.game-grid-info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.game-grid-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #737373;
+  gap: 0.1rem;
+  font-size: 1.5rem;
+  position: relative; /* Required for positioning the pseudo-element */
+  padding-bottom: 20px; /* Space between text and border */
+}
+
+.game-grid-info::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px; /* Height of the border */
+  background: radial-gradient(circle at 50% 50%, #3533cd, transparent 100%, transparent 100%);
+  mask-image: radial-gradient(circle, black 3px, transparent 3px);
+  mask-size: 8px 8px;
+  mask-repeat: repeat-x;
+}
