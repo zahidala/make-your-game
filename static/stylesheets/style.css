@@ -109,6 +109,7 @@ body {
   color: #FEBD59;
 }
 
+<<<<<<< Updated upstream
 .game-container {
   display: flex;
   flex-direction: column;
@@ -202,3 +203,35 @@ body {
   mask-size: 8px 8px;
   mask-repeat: repeat-x;
 }
+=======
+.grid-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 20px);
+  grid-template-rows: repeat(20, 20px);
+  gap: 1px;
+  border: #fff;
+}
+
+.grid div {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #333;
+}
+
+.tetromino {
+  border: 1px solid #333;
+}
+
+.O-shape { background-color: #ffde59; }
+.I-shape { background-color: #ff914d; }
+.T-shape { background-color: #8c52ff; }
+.L-shape, .J-shape { background-color: #38b6ff; }
+.Z-shape, .S-shape { background-color: #d33c2d; }
+>>>>>>> Stashed changes
