@@ -278,6 +278,7 @@ body {
 .game-grid-options-container.controls-options {
   display: flex;
   gap: 0.3rem;
+  cursor: pointer;
 }
 
 .controls-text {
