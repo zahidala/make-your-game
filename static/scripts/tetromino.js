@@ -17,6 +17,7 @@ export class Tetromino {
 		this.currentRotation = 0;
 		this.random = Math.floor(Math.random() * SHAPES.length);
 		this.current = SHAPES[this.random];
+		this.timeoutId = null;
 	}
 
 	// Draw the tetromino shape on the grid by adding the tetromino class to the grid cells
@@ -37,7 +38,7 @@ export class Tetromino {
 
 	gameLoop() {
 		this.moveDown();
-		setTimeout(this.gameLoop.bind(this), 1000);
+		this.timeoutId = setTimeout(this.gameLoop.bind(this), 1000);
 	}
 
 	// Check if the tetromino shape is at the bottom of the grid
@@ -89,11 +90,35 @@ export class Tetromino {
 
 	// Rotate the tetromino shape on the grid by rotating the shape array and updating the current rotation
 	rotate() {
+		if (this.current.class === "O-shape") return;
+
 		this.undraw();
 		this.currentRotation = (this.currentRotation + 1) % 4;
 		this.current.shape = SHAPES[this.random].shape.map(index => {
 			return this.rotateShape(index, this.currentRotation);
 		});
+		this.draw();
+	}
+
+	pause() {
+		if (!this.timeoutId) return;
+
+		clearTimeout(this.timeoutId); // Clear the timeout using the stored ID
+		this.timeoutId = null; // Reset the timeout ID
+	}
+
+	play() {
+		if (this.timeoutId) return;
+
+		this.timeoutId = setTimeout(this.gameLoop.bind(this), 1000); // Set the timeout and store the ID
+	}
+
+	retry() {
+		this.undraw();
+		this.currentPosition = 4;
+		this.currentRotation = 0;
+		this.random = Math.floor(Math.random() * SHAPES.length);
+		this.current = SHAPES[this.random];
 		this.draw();
 	}
 
@@ -141,5 +166,20 @@ export function setupControls(tetromino) {
 				tetromino.rotate();
 				break;
 		}
+	});
+
+	const buttons = {
+		"move-left": tetromino.moveLeft,
+		"move-right": tetromino.moveRight,
+		"move-down": tetromino.moveDown,
+		"rotate-left": tetromino.rotate,
+		pause: tetromino.pause,
+		play: tetromino.play,
+		retry: tetromino.retry,
+	};
+
+	Object.entries(buttons).forEach(([id, action]) => {
+		const button = document.getElementById(id);
+		button.addEventListener("click", () => action.call(tetromino));
 	});
 }
