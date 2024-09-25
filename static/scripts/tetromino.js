@@ -34,7 +34,12 @@ export class Tetromino {
 			cells[this.currentPosition + index].classList.remove("tetromino", this.current.class);
 		});
 	}
-	
+
+	gameLoop() {
+		this.moveDown();
+		setTimeout(this.gameLoop.bind(this), 1000);
+	}
+
 	// Check if the tetromino shape is at the bottom of the grid
 	// If it is, return true, otherwise return false
 	// isAtBottom() {
@@ -53,7 +58,7 @@ export class Tetromino {
 	// 	});
 	// }
 
-	// Move the tetromino down by one cell on the grid 
+	// Move the tetromino down by one cell on the grid
 	// by removing the tetromino class from the grid cells and updating the current position
 	moveDown() {
 		// if (!this.isAtBottom()) {
@@ -68,7 +73,7 @@ export class Tetromino {
 		this.draw();
 	}
 
-	// Move the tetromino left by one cell on the grid 
+	// Move the tetromino left by one cell on the grid
 	moveLeft() {
 		this.undraw();
 		this.currentPosition--;
@@ -118,7 +123,7 @@ export class Tetromino {
 // Setup the controls for the tetromino shape on the grid
 export function setupControls(tetromino) {
 	document.addEventListener("keydown", e => {
-		// Check if the key pressed is one of the arrow keys 
+		// Check if the key pressed is one of the arrow keys
 		// Call the corresponding method on the tetromino object to move the tetromino shape on the grid
 		switch (e.key) {
 			case "ArrowLeft":
