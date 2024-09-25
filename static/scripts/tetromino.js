@@ -118,6 +118,8 @@ export class Tetromino {
 				return index;
 		}
 	}
+
+	
 }
 
 // Setup the controls for the tetromino shape on the grid

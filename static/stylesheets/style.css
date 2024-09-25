@@ -42,7 +42,8 @@ body {
   justify-content: center;
   position: relative;
   font: 8rem 'Another X Display tfb', san-serif;
-  text-shadow:#3533cd 0px 10px 0px;
+  font-style: italic;
+  text-shadow:#3533cd 10px 10px 0px;
   color: white;
 }
 
@@ -91,7 +92,7 @@ body {
 
 /* NEW GAME / CONTINUE GAME */
 .main-menu-option {
-  font-size: 1.2rem;
+  font-size: 1rem;
   cursor: pointer;
   position: relative;
 }
@@ -312,10 +313,10 @@ body {
   border: 1px solid rgb(54, 42, 137, 0.4);
 }
 
-.tetromino {
+/* .tetromino {
   background-color: #ccc;
   border: 1px solid #333;
-}
+} */
 
 
 .O-shape { background-color: #ffde59; }
@@ -358,7 +359,7 @@ body {
 }
 
 .game-over-option {
-  font-size: 1.2rem;
+  font-size: 1rem;
   cursor: pointer;
   position: relative;
 }
