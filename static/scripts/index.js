@@ -9,7 +9,7 @@ const tetromino = new Tetromino();
 tetromino.draw();
 setupControls(tetromino);
 
-// Game loop
+// Game loop function to move the tetromino down every second (1000 milliseconds)
 function gameLoop() {
 	tetromino.moveDown();
 	setTimeout(gameLoop, 1000);
