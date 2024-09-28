@@ -49,13 +49,14 @@ export class Tetromino {
 	}
 
 	isValidMove(position, rotation) {
-		const cells = document.querySelectorAll(".grid div");
 		return this.current.shape.every(index => {
-			const newIndex = this.rotateShape(index, rotation) + position; // Calculate the new index of the shape array based on the current rotation
-			const validPosition = newIndex >= 0 && newIndex < GRID_SIZE; // Check if the new index is within the grid bounds
-			const isAvailable = validPosition && !cells[newIndex].classList.contains("taken"); // Check if the new index is available (not taken)
-			const isWithinGrid = Math.floor(newIndex % GRID_WIDTH) - Math.floor(position % GRID_WIDTH) < 4; // Check if the new index is within the grid bounds
-			return validPosition && isAvailable && isWithinGrid;
+			const newIndex = this.rotateShape(index, rotation) + position;
+			const row = Math.floor(newIndex / GRID_WIDTH);
+			const col = newIndex % GRID_WIDTH;
+			const isWithinGrid = col >= 0 && col < GRID_WIDTH && row < GRID_HEIGHT;
+			const cells = document.querySelectorAll(".grid div");
+			const isEmpty = isWithinGrid && !cells[newIndex].classList.contains("taken");
+			return isWithinGrid && isEmpty;
 		});
 	}
 
@@ -68,9 +69,11 @@ export class Tetromino {
 			this.draw();
 		} else {
 			this.freeze();
-			this.reset();
-			if (!this.isValidMove(this.currentPosition, this.currentRotation)) {
+			if (!this.isValidMove(4, 0)) {
 				this.gameOver();
+			} else {
+				this.reset();
+				this.draw();
 			}
 		}
 	}
@@ -111,7 +114,11 @@ export class Tetromino {
 	freeze() {
 		const cells = document.querySelectorAll(".grid div");
 		this.current.shape.forEach(index => {
-			cells[this.currentPosition + index].classList.add("taken");
+			const cellIndex = this.currentPosition + index;
+			if (cellIndex < GRID_SIZE) {
+				cells[cellIndex].classList.add("taken");
+				cells[cellIndex].classList.add(this.current.class);
+			}
 		});
 		this.checkForFullRows();
 	}
@@ -119,17 +126,31 @@ export class Tetromino {
 	// Check for full rows and remove them.
 	checkForFullRows() {
 		const cells = document.querySelectorAll(".grid div");
-		for (let i = 0; i < GRID_HEIGHT; i++) {
+		for (let i = GRID_HEIGHT - 1; i >= 0; i--) {
 			const row = Array.from(cells).slice(i * GRID_WIDTH, (i + 1) * GRID_WIDTH);
 			if (row.every(cell => cell.classList.contains("taken"))) {
+				// Remove the full row
 				row.forEach(cell => {
-					cell.classList.remove("taken");
-					cell.classList.remove("tetromino");
+					cell.classList.remove("taken", "tetromino");
 					cell.className = "";
 				});
-				const removedRow = cells.splice(i * GRID_WIDTH, GRID_WIDTH);
-				cells.unshift(...removedRow);
-				cells.forEach(cell => document.querySelector(".grid").appendChild(cell));
+
+				// Move all above rows down
+				for (let j = i; j > 0; j--) {
+					for (let k = 0; k < GRID_WIDTH; k++) {
+						const cellIndex = j * GRID_WIDTH + k;
+						const cellAbove = cells[cellIndex - GRID_WIDTH];
+						cells[cellIndex].className = cellAbove.className;
+					}
+				}
+
+				// Clear the top row
+				for(let k = 0; k < GRID_WIDTH; k++) {
+					cells[k].className = "";
+				}
+
+				// Since we moved the rows down, we need to check this row again
+				i++;
 			}
 		}
 	}
