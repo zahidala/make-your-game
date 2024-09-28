@@ -15,16 +15,28 @@ body {
   color: #737373;
 }
 
-.background-image {
+.background-image, .background-overlay {
   position: absolute;
   left: -10px;
   top: -10px;
   background-image: url("/static/assets/images/background.jpg");
   width: calc(100% + 20px);
   height: calc(100% + 20px);
+  /* background-size: 100% 50%; */
+  /* background-repeat: repeat; */
   filter: contrast(130%) sepia(70%) blur(3px);
   z-index: -1;
-} 
+  animation: fallBackground 5s linear infinite;
+}
+
+/* .background-image {
+  animation: fallBackground 5s linear infinite;
+} */
+
+/* .background-overlay {
+  opacity: 0.5;
+  animation: fallBackground 4.9s linear infinite;
+} */
 
 /* CONTAINER FOR TITLE AND MAIN MENU OPTIONS */
 .main-menu-container {
@@ -43,8 +55,14 @@ body {
   position: relative;
   font: 8rem 'Another X Display tfb', san-serif;
   font-style: italic;
-  text-shadow:#3533cd 10px 10px 0px;
+  text-shadow:
+  #3533cd 10px 10px 0px,
+  #3533cd 0 0 10px,
+  white 0 0 20px,
+  white 0 0 30px,
+  white 0 0 40px;
   color: white;
+  animation: glow 1.5s ease-in-out infinite alternate;
 }
 
 /* TITLE BORDER STYLES */
@@ -132,6 +150,7 @@ body {
   padding-top: 2rem;
 }
 
+/* GAME GRID CONTAINER */
 .game-grid-container {
   display: grid;
   grid-template-columns: 0.5fr 2fr 0.5fr;
@@ -298,33 +317,32 @@ body {
   border-right: 8px dotted #3533cd;
 }
 
+/* GAME GRID STYLES */
 .grid {
   display: grid;
   grid-template-columns: repeat(10, 20px);
   grid-template-rows: repeat(20, 20px);
   gap: 1px;
+  /* background: linear-gradient(to bottom, #737373 50%, #3533cd 100%); */
   border: 4px dotted #3533cd;
   border-radius: 10px;
 }
 
+/* GAME GRID CELL STYLES */
 .grid div {
   width: 20px;
   height: 20px;
   border: 1px solid rgb(54, 42, 137, 0.4);
 }
 
-/* .tetromino {
-  background-color: #ccc;
-  border: 1px solid #333;
-} */
-
-
+/* TETROMINO SHAPE STYLES */
 .O-shape { background-color: #ffde59; }
 .I-shape { background-color: #ff914d; }
 .T-shape { background-color: #8c52ff; }
 .L-shape, .J-shape { background-color: #38b6ff; }
 .Z-shape, .S-shape { background-color: #d33c2d; }
 
+/* GAME OVER CONTAINER */
 .game-over-container {
   display: flex;
   flex-direction: column;
@@ -382,3 +400,26 @@ body {
   color: #febd59;
 }
 
+@keyframes fallBackground {
+  from { background-position: 0 0; }
+  to { background-position: 0 100%; }
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 
+    #3533cd 10px 10px 0px,
+    #3533cd 0 0 10px,
+    white 0 0 20px,
+    white 0 0 30px,
+    white 0 0 40px;
+  }
+  to {
+    text-shadow: 
+      #3533cd 10px 10px 0px,
+      #3533cd 0 0 20px,
+      #3533cd 0 0 30px,
+      #3533cd 0 0 40px,
+      #3533cd 0 0 50px;
+  }
+}
