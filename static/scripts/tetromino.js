@@ -6,13 +6,69 @@ const GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
 // Array of tetromino shapes with their corresponding classes.
 // Tetromino class to represent the tetromino shape and movement on the grid.
 const SHAPES = [
-	{ shape: [1, 2, 11, 21], class: "L-shape" },
-	{ shape: [1, 11, 21, 22], class: "J-shape" },
-	{ shape: [1, 2, 11, 12], class: "O-shape" },
-	{ shape: [1, 11, 21, 31], class: "I-shape" },
-	{ shape: [1, 11, 12, 21], class: "T-shape" },
-	{ shape: [1, 2, 10, 11], class: "Z-shape" },
-	{ shape: [0, 1, 11, 12], class: "S-shape" },
+	{
+		shape: [
+			[1, 0],
+			[2, 0],
+			[1, 1],
+			[1, 2],
+		],
+		class: "L-shape",
+	},
+	{
+		shape: [
+			[1, 0],
+			[1, 1],
+			[1, 2],
+			[0, 2],
+		],
+		class: "J-shape",
+	},
+	{
+		shape: [
+			[1, 0],
+			[2, 0],
+			[1, 1],
+			[2, 1],
+		],
+		class: "O-shape",
+	},
+	{
+		shape: [
+			[1, 0],
+			[1, 1],
+			[1, 2],
+			[1, 3],
+		],
+		class: "I-shape",
+	},
+	{
+		shape: [
+			[1, 0],
+			[0, 1],
+			[1, 1],
+			[2, 1],
+		],
+		class: "T-shape",
+	},
+	{
+		shape: [
+			[0, 0],
+			[1, 0],
+			[1, 1],
+			[2, 1],
+		],
+		class: "Z-shape",
+	},
+	{
+		shape: [
+			[2, 0],
+			[1, 0],
+			[1, 1],
+			[0, 1],
+		],
+		class: "S-shape",
+	},
 ];
 
 // Tetromino class definition with methods for drawing, undrawing, and moving the tetromino.
@@ -26,50 +82,61 @@ export class Tetromino {
 
 	// Reset the tetromino to its initial state.
 	reset() {
-		this.currentPosition = 4;
+		this.currentPosition = { x: 4, y: 0 }; // Start in the middle of the grid
 		this.currentRotation = 0;
 		this.random = Math.floor(Math.random() * SHAPES.length);
 		this.current = SHAPES[this.random];
 	}
 
-	// Draw the tetromino shape on the grid by adding the tetromino class to the grid cells
+	// Convert coordinates to grid index
+	getGridIndex(x, y) {
+		return y * GRID_WIDTH + x;
+	}
+
+	// Draw the tetromino based on its coordinates
 	draw() {
 		const cells = document.querySelectorAll(".grid div");
-		this.current.shape.forEach(index => {
-			cells[this.currentPosition + index].classList.add("tetromino", this.current.class);
+		this.current.shape.forEach(([xOffset, yOffset]) => {
+			const x = this.currentPosition.x + xOffset;
+			const y = this.currentPosition.y + yOffset;
+			const index = this.getGridIndex(x, y);
+			cells[index].classList.add("tetromino", this.current.class);
 		});
 	}
 
-	// Undraw the tetromino shape from the grid by removing the tetromino class from the grid cells
+	// Remove the tetromino from the grid
 	undraw() {
 		const cells = document.querySelectorAll(".grid div");
-		this.current.shape.forEach(index => {
-			cells[this.currentPosition + index].classList.remove("tetromino", this.current.class);
+		this.current.shape.forEach(([xOffset, yOffset]) => {
+			const x = this.currentPosition.x + xOffset;
+			const y = this.currentPosition.y + yOffset;
+			const index = this.getGridIndex(x, y);
+			cells[index].classList.remove("tetromino", this.current.class);
 		});
 	}
 
-	isValidMove(position, rotation) {
-		return this.current.shape.every(index => {
-			const newIndex = this.rotateShape(index, rotation) + position;
-			const row = Math.floor(newIndex / GRID_WIDTH);
-			const col = newIndex % GRID_WIDTH;
-			const isWithinGrid = col >= 0 && col < GRID_WIDTH && row < GRID_HEIGHT;
-			const cells = document.querySelectorAll(".grid div");
-			const isEmpty = isWithinGrid && !cells[newIndex].classList.contains("taken");
+	// Check if the tetromino can move to a new position
+	isValidMove(x, y, shape) {
+		return shape.every(([xOffset, yOffset]) => {
+			const newX = x + xOffset;
+			const newY = y + yOffset;
+			const index = this.getGridIndex(newX, newY);
+			const cell = document.querySelector(`.grid div:nth-child(${index + 1})`);
+			const isWithinGrid = newX >= 0 && newX < GRID_WIDTH && newY < GRID_HEIGHT;
+			const isEmpty = isWithinGrid && cell && !cell.classList.contains("taken") && !cell.getAttribute("data-bound");
 			return isWithinGrid && isEmpty;
 		});
 	}
 
-	// Move the tetromino down by one row on the grid
-	// by removing the tetromino class from the grid cells and updating the current position
+	// Move the tetromino down
 	moveDown() {
-		if (this.isValidMove(this.currentPosition + GRID_WIDTH, this.currentRotation)) {
+		if (this.isValidMove(this.currentPosition.x, this.currentPosition.y + 1, this.current.shape)) {
 			this.undraw();
-			this.currentPosition += GRID_WIDTH;
+			this.currentPosition.y++;
 			this.draw();
 		} else {
 			this.freeze();
-			if (!this.isValidMove(4, 0)) {
+			if (!this.isValidMove(4, 0, this.current.shape)) {
 				this.gameOver();
 			} else {
 				this.reset();
@@ -78,152 +145,100 @@ export class Tetromino {
 		}
 	}
 
-	// Move the tetromino left by one column on the grid.
+	// Move the tetromino left
 	moveLeft() {
-		if (this.isValidMove(this.currentPosition - 1, this.currentRotation)) {
+		if (this.isValidMove(this.currentPosition.x - 1, this.currentPosition.y, this.current.shape)) {
 			this.undraw();
-			this.currentPosition--;
+			this.currentPosition.x--;
 			this.draw();
 		}
 	}
 
-	// Move the tetromino right by one column on the grid.
+	// Move the tetromino right
 	moveRight() {
-		if (this.isValidMove(this.currentPosition + 1, this.currentRotation)) {
+		if (this.isValidMove(this.currentPosition.x + 1, this.currentPosition.y, this.current.shape)) {
 			this.undraw();
-			this.currentPosition++;
+			this.currentPosition.x++;
 			this.draw();
 		}
 	}
 
-	// Rotate the tetromino clockwise on the grid
-	// by rotating the shape array and updating the current rotation.
+	// Rotate the tetromino
 	rotate() {
-		if (this.current.class === "O-shape") return;
-
-		const nextRotation = (this.currentRotation + 1) % 4;
-		if (this.isValidMove(this.currentPosition, nextRotation)) {
+		if (this.current.class === "O-shape") return; // O-shape doesn't need rotation
+		const rotatedShape = this.rotateShape(this.current.shape);
+		if (this.isValidMove(this.currentPosition.x, this.currentPosition.y, rotatedShape)) {
 			this.undraw();
-			this.currentRotation = nextRotation;
-			this.current.shape = SHAPES[this.random].shape.map(index => this.rotateShape(index, this.currentRotation));
+			this.current.shape = rotatedShape;
 			this.draw();
 		}
 	}
 
-	// Freeze the tetromino on the grid.
+	// Helper function to rotate a shape 90 degrees clockwise
+	rotateShape(shape) {
+		return shape.map(([x, y]) => [-y, x]); // Simple 90 degree rotation matrix
+	}
+
+	// Freeze the tetromino when it can't move down anymore
 	freeze() {
 		const cells = document.querySelectorAll(".grid div");
-		this.current.shape.forEach(index => {
-			const cellIndex = this.currentPosition + index;
-			if (cellIndex < GRID_SIZE) {
-				cells[cellIndex].classList.add("taken");
-				cells[cellIndex].classList.add(this.current.class);
-			}
+		this.current.shape.forEach(([xOffset, yOffset]) => {
+			const x = this.currentPosition.x + xOffset;
+			const y = this.currentPosition.y + yOffset;
+			const index = this.getGridIndex(x, y);
+			cells[index].classList.add("taken", this.current.class);
 		});
 		this.checkForFullRows();
+		this.draw();
 	}
 
-	// Check for full rows and remove them.
+	// Check and clear full rows
 	checkForFullRows() {
 		const cells = document.querySelectorAll(".grid div");
-		for (let i = GRID_HEIGHT - 1; i >= 0; i--) {
-			const row = Array.from(cells).slice(i * GRID_WIDTH, (i + 1) * GRID_WIDTH);
+		for (let y = GRID_HEIGHT - 1; y >= 0; y--) {
+			const row = Array.from(cells).slice(y * GRID_WIDTH, (y + 1) * GRID_WIDTH);
 			if (row.every(cell => cell.classList.contains("taken"))) {
-				// Remove the full row
 				row.forEach(cell => {
 					cell.classList.remove("taken", "tetromino");
-					cell.className = "";
 				});
-
-				// Move all above rows down
-				for (let j = i; j > 0; j--) {
+				// Move rows above down
+				for (let j = y; j > 0; j--) {
 					for (let k = 0; k < GRID_WIDTH; k++) {
-						const cellIndex = j * GRID_WIDTH + k;
-						const cellAbove = cells[cellIndex - GRID_WIDTH];
-						cells[cellIndex].className = cellAbove.className;
+						const index = j * GRID_WIDTH + k;
+						const aboveIndex = (j - 1) * GRID_WIDTH + k;
+						cells[index].className = cells[aboveIndex].className;
 					}
 				}
-
 				// Clear the top row
-				for(let k = 0; k < GRID_WIDTH; k++) {
+				for (let k = 0; k < GRID_WIDTH; k++) {
 					cells[k].className = "";
 				}
-
-				// Since we moved the rows down, we need to check this row again
-				i++;
+				// Re-check the row in case more rows can be cleared
+				y++;
 			}
 		}
 	}
 
-	// Game over logic.
 	gameOver() {
 		clearInterval(this.intervalId);
 	}
 
-	// Helper function to rotate the tetromino shape.
-	// Rotate the shape array based on the current rotation and return the new index of the shape array.
-	rotateShape(index, rotation) {
-		// Calculate the x and y coordinates of the index.
-		const x = index % 10;
-		const y = Math.floor(index / 10);
-		// Calculate the new index of the shape array based on the current rotation.
-		switch (rotation) {
-			case 1:
-				// Rotate the shape array 90 degrees clockwise.
-				return y + (3 - x) * 10;
-			case 2:
-				// Rotate the shape array 180 degrees clockwise.
-				return 3 - x + (3 - y) * 10;
-			case 3:
-				// Rotate the shape array 270 degrees clockwise.
-				return 3 - y + x * 10;
-			default:
-				// Return the original index if the rotation is not 0, 1, 2, or 3.
-				// No rotation.
-				return index;
-		}
-	}
-
-	// Game loop to control the tetromino movement.
 	gameLoop() {
 		this.moveDown();
 		this.intervalId = setTimeout(this.gameLoop.bind(this), 1000);
 	}
 
-	// pause() {
-	// 	if (!this.timeoutId) return;
-	// 	clearTimeout(this.timeoutId); // Clear the timeout using the stored ID
-	// 	this.timeoutId = null; // Reset the timeout ID
-	// }
-
-	// Pause the game
 	pause() {
 		clearTimeout(this.intervalId);
 		this.intervalId = null;
 	}
 
-	// play() {
-	// 	if (this.timeoutId) return;
-	// 	this.timeoutId = setTimeout(this.gameLoop.bind(this), 1000); // Set the timeout and store the ID
-	// }
-
-	// Resume the game
 	play() {
 		if (!this.intervalId) {
 			this.gameLoop();
 		}
 	}
 
-	// retry() {
-	// 	this.undraw();
-	// 	this.currentPosition = 4;
-	// 	this.currentRotation = 0;
-	// 	this.random = Math.floor(Math.random() * SHAPES.length);
-	// 	this.current = SHAPES[this.random];
-	// 	this.draw();
-	// }
-
-	// Retry the game
 	retry() {
 		this.clearBoard();
 		this.undraw();
@@ -235,13 +250,10 @@ export class Tetromino {
 		this.gameLoop();
 	}
 
-	// Clear the game board.
 	clearBoard() {
 		const cells = document.querySelectorAll(".grid div");
 		cells.forEach(cell => {
-			cell.classList.remove("taken");
-			cell.classList.remove("tetromino");
-			cell.className = "";
+			cell.classList.remove("taken", "tetromino");
 		});
 	}
 }
