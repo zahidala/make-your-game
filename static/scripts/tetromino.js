@@ -121,9 +121,9 @@ export class Tetromino {
 			const newX = x + xOffset;
 			const newY = y + yOffset;
 			const index = this.getGridIndex(newX, newY);
+			const isWithinGrid = newX >= 0 && newX < GRID_WIDTH && newY >= 0 && newY < GRID_HEIGHT;
 			const cell = document.querySelector(`.grid div:nth-child(${index + 1})`);
-			const isWithinGrid = newX >= 0 && newX < GRID_WIDTH && newY < GRID_HEIGHT;
-			const isEmpty = isWithinGrid && cell && !cell.classList.contains("taken") && !cell.getAttribute("data-bound");
+			const isEmpty = isWithinGrid && cell && !cell.classList.contains("taken");
 			return isWithinGrid && isEmpty;
 		});
 	}
