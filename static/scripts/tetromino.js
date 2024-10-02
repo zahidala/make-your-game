@@ -78,6 +78,7 @@ export class Tetromino {
 	constructor() {
 		this.reset();
 		this.intervalId = null;
+		this.debug = false;
 	}
 
 	// Reset the tetromino to its initial state.
@@ -256,6 +257,32 @@ export class Tetromino {
 			cell.classList.remove("taken", "tetromino");
 		});
 	}
+
+	enableDebug() {
+		this.debug = !this.debug;
+
+		const cells = document.querySelectorAll(".grid div");
+		if (this.debug) {
+			console.log(this.currentPosition, this.currentRotation, this.current);
+			cells.forEach((cell, index) => {
+				const x = index % GRID_WIDTH;
+				const y = Math.floor(index / GRID_WIDTH);
+				cell.textContent = `${x},${y}`;
+				cell.style.fontSize = "8px";
+				cell.style.color = "gray";
+				cell.style.fontWeight = "bold";
+				cell.style.fontFamily = "arial";
+			});
+		} else {
+			cells.forEach(cell => {
+				cell.textContent = "";
+				cell.style.fontSize = "";
+				cell.style.color = "";
+				cell.style.fontWeight = "";
+				cell.style.fontFamily = "";
+			});
+		}
+	}
 }
 
 // Function to set up event listeners for game controls for the tetromino.
@@ -275,6 +302,9 @@ export function setupControls(tetromino) {
 				break;
 			case "ArrowUp":
 				tetromino.rotate();
+				break;
+			case "d":
+				tetromino.enableDebug();
 				break;
 		}
 	});
