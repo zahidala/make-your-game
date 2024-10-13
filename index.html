@@ -1,9 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<!-- META TAGS -->
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- Chrome, Firefox OS and Opera -->
+		<meta name="theme-color" content="#ECF0F3" />
+		<!-- Windows Phone -->
+		<meta name="msapplication-navbutton-color" content="#ECF0F3" />
+		<!-- iOS Safari -->
+		<meta name="apple-mobile-web-app-status-bar-style" content="#ECF0F3" />
+
+		<!-- TITLE -->
+		<title>TETRIS</title>
+
+		<!-- STYLES-->
+		<link rel="icon" type="image/x-icon" href="/static/assets/images/favicon.ico" />
 		<link rel="stylesheet" href="/static/stylesheets/style.css" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
 		<link
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -11,163 +25,148 @@
 			crossorigin="anonymous"
 			referrerpolicy="no-referrer"
 		/>
-		<title>Tetris</title>
 	</head>
-	<body>
-		<div class="background-image"></div>
-		<div class="background-overlay"></div>
 
+	<body>
+		<!-- BACKGROUND -->
+		<div class="background-image"></div>
+
+		<!-- MENU SECTION -->
 		<div class="main-menu-container">
 			<h1 class="heading">TETRIS</h1>
 
-			<div class="main-menu-options">
-				<span class="sub-heading">START GAME!</span>
+			<!-- HIGH SCORES SECTION
+			<div class="result-container">
+				<span class="sub-heading">HIGH SCORE</span>
+				<span class="result-info">LEVEL</span>
+				<span id="result-level">00</span>
+				<span class="result-info">SCORE</span>
+				<span id="result-score">00</span>
 
-				<span class="main-menu-option" id="new-game">NEW GAME</span>
-				<span class="main-menu-option" id="continue-game">CONTINUE</span>
+				<p>level</p>
+				<h1 id="result-level">1</h1>
+				<p>score</p>
+				<h1 id="result-score">123456</h1>
+			</div> -->
+
+			<!-- MENU OPTIONS SECTION -->
+			<div class="main-menu-wrapper">
+				<span class="sub-heading">START GAME!</span>
+				<span class="main-menu-options" id="btn-play">NEW GAME</span>
+				<span class="main-menu-options" id="btn-continue">CONTINUE</span>
 			</div>
 		</div>
 
+		<!-- MAIN GAME -->
 		<div class="game-container">
 			<h1 class="heading">TETRIS</h1>
+			<div class="game-wrapper">
+				<!-- MAIN GAME GRID -->
+				<div class="board-section"></div>
+				
+				<div class="info-section">
+					<span id="score"> 1234567 </span>
+					<span id="level"> lv. 1 </span>
+				</div>
 
-			<div class="game-grid-container">
-				<div class="game-grid-options-info-container">
-					<div class="game-grid-options-container">
-						<div class="game-grid-option" id="pause">
-							<div class="game-grid-option-icon">
-								<i class="fa-solid fa-pause fa-xl"></i>
-							</div>
-
-							<span>PAUSE</span>
-						</div>
-
-						<div class="game-grid-option" id="play">
-							<div class="game-grid-option-icon">
-								<i class="fa-solid fa-play fa-xl"></i>
-							</div>
-
-							<span>PLAY</span>
-						</div>
-
-						<div class="game-grid-option" id="retry">
-							<div class="game-grid-option-icon">
-								<i class="fa-solid fa-rotate-right fa-xl"></i>
-							</div>
-
-							<span>RETRY</span>
-						</div>
-					</div>
-
-					<div class="game-grid-info-container">
-						<div class="next-grid">
+				<!-- CONTROLS -->
+				<div class="control-section">
+					<div class="col">
+						<div class="arrow-control">
+							<div></div>
+							<button class="btn" id="btn-up">
+								<i class="fa-solid fa-rotate-left"></i>
+							</button>
+							<div></div>
+							<button class="btn" id="btn-left">
+								<i class="fa-solid fa-angle-left"></i>
+							</button>
+							<div></div>
+							<button class="btn" id="btn-right">
+								<i class="fa-solid fa-angle-right"></i>
+							</button>
+							<div></div>
+							<button class="btn" id="btn-down">
+								<i class="fa-solid fa-angle-down"></i>
+							</button>
 							<div></div>
 						</div>
-
-						<div class="game-grid-info">
-							<span>COMBO</span>
-							<span>x 5</span>
-						</div>
-
-						<div class="game-grid-info">
-							<span>LINES</span>
-							<span>20</span>
-						</div>
-
-						<div class="game-grid-info">
-							<span>LEVEL</span>
-							<span>1</span>
-						</div>
+					</div>
+					<div class="col">
+						<button class="btn btn-large" id="btn-drop">
+							<i class="fa-solid fa-angles-down"></i>
+						</button>
 					</div>
 				</div>
 
-				<div class="grid-container">
-					<div class="grid"></div>
-				</div>
-
-				<div class="game-grid-other-info-container">
-					<div class="game-grid-other-info-lives">
-						<i class="fa-solid fa-heart fa-xl"></i>
-						<i class="fa-solid fa-heart fa-xl"></i>
-						<i class="fa-solid fa-heart fa-xl"></i>
-						<i class="fa-solid fa-heart fa-xl"></i>
-						<i class="fa-solid fa-heart fa-xl"></i>
-					</div>
-
-					<div class="game-grid-other-info">
-						<div class="game-grid-scores">
-							<div class="game-score">
-								<span>SCORE</span>
-								<span>00</span>
-							</div>
-
-							<div class="game-score">
-								<span>HIGH</span>
-								<span>00</span>
-							</div>
-						</div>
-
-						<div class="game-grid-info">
-							<span>TIMER</span>
-							<span>00:00:00</span>
-						</div>
-
-						<div class="game-grid-info">
-							<span>SPEED</span>
-							<span>0.00</span>
-						</div>
-
-						<div class="game-controls-container">
-							<span>CONTROLS</span>
-
-							<div class="controls">
-								<div class="controls-text">
-									<span>LEFT/RIGHT ARROWS</span>
-									<span>MOVE LEFT/RIGHT</span>
-									<span>UP ARROW</span>
-									<span>ROTATE CLOCKWISE</span>
-									<span>DOWN ARROW</span>
-									<span>SPEED UP MOVEMENT</span>
-								</div>
-
-								<div class="game-grid-options-container controls-options">
-									<div class="game-grid-option-icon" id="rotate-left">
-										<i class="fa-solid fa-rotate-left fa-xl"></i>
-									</div>
-
-									<div class="game-grid-option-icon" id="move-left">
-										<i class="fa-solid fa-chevron-left fa-xl"></i>
-									</div>
-
-									<div class="game-grid-option-icon" id="move-down">
-										<i class="fa-solid fa-chevron-down fa-xl"></i>
-									</div>
-
-									<div class="game-grid-option-icon" id="move-right">
-										<i class="fa-solid fa-chevron-right fa-xl"></i>
-									</div>
-
-									<div class="game-grid-option-icon" id="rotate-right">
-										<i class="fa-solid fa-rotate-right fa-xl"></i>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+				<!-- SETTING SECTION -->
+				<div class="setting-section">
+					<button class="btn" id="btn-pause">
+						<i class="fa-solid fa-pause"></i>
+					</button>
+					<button class="btn" id="btn-theme">
+						<i class="fa-solid fa-volume-high"></i>
+						<i class="fa-solid fa-volume-xmark"></i>
+					</button>
+					<button class="btn" id="btn-help">
+						<i class="fa-solid fa-question"></i>
+					</button>
 				</div>
 			</div>
 		</div>
 
-		<div class="game-over-container">
-			<h1 class="heading">GAME OVER!</h1>
-
-			<div class="game-over-options">
-				<span class="sub-heading">PLAY AGAIN?</span>
-
-				<span class="game-over-option" id="yes-option">YES</span>
-				<span class="game-over-option" id="no-option">NO</span>
-			</div>
+		<!-- HELP SECTION -->
+		<div class="how-to">
+			<h3>KEYBOARD CONTROL</h3>
+			<table>
+				<tr>
+					<td>
+						<button class="btn keycap">
+							<i class="fa-solid fa-angle-left"></i>
+						</button>
+					</td>
+					<td>Move left</td>
+				</tr>
+				<tr>
+					<td>
+						<button class="btn keycap">
+							<i class="fa-solid fa-angle-right"></i>
+						</button>
+					</td>
+					<td>Move right</td>
+				</tr>
+				<tr>
+					<td>
+						<button class="btn keycap">
+							<i class="fa-solid fa-angle-down"></i>
+						</button>
+					</td>
+					<td>Move down</td>
+				</tr>
+				<tr>
+					<td>
+						<button class="btn keycap">
+							<i class="fa-solid fa-angle-up"></i>
+						</button>
+					</td>
+					<td>Move rotate</td>
+				</tr>
+				<tr>
+					<td>
+						<button class="btn keycap">space</button>
+					</td>
+					<td>Hard drop</td>
+				</tr>
+				<tr>
+					<td>
+						<button class="btn keycap">p</button>
+					</td>
+					<td>Pause/Resume game</td>
+				</tr>
+			</table>
 		</div>
 	</body>
 </html>
-<script type="module" src="/static/scripts/index.js"></script>
+<script src="/static/scripts/grid.js"></script>
+<script src="/static/scripts/tetromino.js"></script>
+<script src="/static/scripts/game.js"></script>

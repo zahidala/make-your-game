@@ -1,5 +1,5 @@
-import { mainMenu } from "./main-menu.js";
-import { createGrid } from "./grid.js";
+// import { mainMenu } from "./main-menu.js";
+// import { createGrid } from "./grid.js";
 
-mainMenu();
-createGrid();
+// mainMenu();
+// createGrid();
