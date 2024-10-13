@@ -160,7 +160,6 @@ html {
 	border-radius: 30px;
 	padding: 1rem;
 	z-index: 99;
-	width: 80%;
 	/* max-width: 414px; */ /* iPhone 12 Pro Max */
 	height: 100%;
 	max-height: 690px;
@@ -214,12 +213,21 @@ html {
 	color: #f88ab0;
 }
 
-i.bxs-moon {
-	display: block;
+/* VOLUME TOGGLE */
+i.fa-volume-high {
+    display: block;
 }
 
-i.bxs-sun {
-	display: none;
+i.fa-volume-xmark {
+    display: none;
+}
+
+body.muted i.fa-volume-high {
+    display: none;
+}
+
+body.muted i.fa-volume-xmark {
+    display: block;
 }
 
 .btn {
@@ -377,9 +385,28 @@ i.bxs-sun {
 
 /*  RESPONSIVENESS MEDIA QUERY  */
 @media only screen and (max-width: 425px) {
+	.heading {
+		font-size: 4rem;
+	}
+
+	.sub-heading {
+		font-size: 1.2rem;
+	}
+
+	.main-menu-wrapper {
+		width: 60%;
+		height: 15%;
+		border-radius: unset;
+		box-shadow: unset;
+	}
+
+	.main-menu-options {
+		font-size: 0.8rem;
+	}
+
 	.block {
-		width: 10px;
-		height: 10px;
+		width: 15px;
+		height: 15px;
 	}
 
 	.game-wrapper {
