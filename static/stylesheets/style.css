@@ -149,10 +149,8 @@ html {
 
 /* GAME INFO / BOARD / SCORES / CONTROLS CONTAINER */
 .game-wrapper {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: 0.5fr 2fr 0.5fr;
 	position: relative;
 	gap: 1rem;
 	background-color: #1a1a1a;
@@ -167,21 +165,21 @@ html {
 }
 
 .info-section {
-	position: relative;
-	text-align: center;
-	font-weight: 600;
-	padding: 20px;
-	font-size: 25px;
-	color: #243441;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
 }
 
-.info-section #level {
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	left: 30px;
-	font-size: 18px;
+.board-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	border-left: 8px dotted #3533cd;
+	border-right: 8px dotted #3533cd;
 }
+
 
 /* MAIN GAME GRID */
 .board-section {
@@ -287,6 +285,7 @@ body.muted i.fa-volume-xmark {
 	position: absolute;
 	top: 50%;
 	right: 0;
+	z-index: 1000;
 	transform: translate(100%, -50%);
 	box-shadow: -10px 10px 20px #dbdfe2, 10px -10px 20px #fdffff;
 	padding: 30px;
@@ -356,6 +355,97 @@ body.muted i.fa-volume-xmark {
 #btn-new-game,
 #btn-pause {
 	display: none;
+}
+
+.buttons-wrapper {
+	display: flex;
+	gap: 1rem;
+}
+
+.game-button-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 0.3rem;
+}
+
+.game-button-wrapper span {
+	font-size: 0.7rem;
+	font-weight: 500;
+	color: #737373;
+}
+
+.game-button {
+	background: linear-gradient(to bottom, transparent 50%, #3533cd 90%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  color: #a6a6a6;
+  border: 2px solid #737373;
+}
+
+.game-info span:nth-child(1){
+	font-size: 1.2rem;
+}
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  position: relative;
+  padding-bottom: 20px; 
+}
+
+.game-info::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px; 
+  background: radial-gradient(circle at 50% 50%, #3533cd, transparent 100%, transparent 100%);
+  mask-image: radial-gradient(circle, black 3px, transparent 3px);
+  mask-size: 8px 8px;
+  mask-repeat: repeat-x;
+}
+
+.scores-wrapper {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  position: relative; /* Required for positioning the pseudo-element */
+  padding-bottom: 20px; /* Space between text and border */
+}
+
+.scores-wrapper::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px; /* Height of the border */
+  background: radial-gradient(circle at 50% 50%, #3533cd, transparent 100%, transparent 100%);
+  mask-image: radial-gradient(circle, black 3px, transparent 3px);
+  mask-size: 8px 8px;
+  mask-repeat: repeat-x;
+}
+
+.scores-wrapper > div {
+  display: flex;
+  flex-direction: column;
+	justify-content: space-between;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.lives {
+	color: #F15D42;
 }
 
 /*  ANIMATION  */
@@ -443,260 +533,3 @@ body.muted i.fa-volume-xmark {
 		display: none;
 	}
 }
-
-
-
-
-
-
-
-
-
-/* GAME INFO / GRID / SCORES / CONTROLS CONTAINER */
-
-/* GAME GRID CONTAINER */
-/* .game-grid-container {
-  display: grid;
-  grid-template-columns: 0.5fr 2fr 0.5fr;
-  gap: 1rem;
-  background-color: #1a1a1a;
-  border: 10px dotted #3533cd;
-  border-radius: 30px;
-  padding: 1rem;
-} */
-
-/* .game-grid-options-info-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-} */
-
-/* .game-grid-options-container {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-} */
-
-/* .game-grid-options-container span {
-  font-size: 0.5rem;
-} */
-
-/* .game-grid-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.2rem;
-  cursor: pointer;
-} */
-
-/* .game-grid-option-icon {
-  background: linear-gradient(to bottom, transparent 50%, #3533cd 90%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 5px;
-  color: #a6a6a6;
-  border: 2px solid #737373;
-} */
-
-/* .game-grid-option span {
-  font-size: 0.8rem;
-} */
-
-/* .game-grid-info-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-} */
-
-/* .game-grid-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.1rem;
-  position: relative; Required for positioning the pseudo-element
-  padding-bottom: 20px; Space between text and border
-} */
-
-/* .game-grid-info::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 5px; Height of the border
-  background: radial-gradient(circle at 50% 50%, #3533cd, transparent 100%, transparent 100%);
-  mask-image: radial-gradient(circle, black 3px, transparent 3px);
-  mask-size: 8px 8px;
-  mask-repeat: repeat-x;
-} */
-
-/* .game-grid-other-info-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-} */
-
-/* .game-grid-other-info {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-} */
-
-/* .game-grid-other-info-lives {
-  color: #F15D42;
-} */
-
-/* .game-grid-scores {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  position: relative; Required for positioning the pseudo-element
-  padding-bottom: 20px; Space between text and border
-} */
-
-/* .game-grid-scores::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 5px; Height of the border
-  background: radial-gradient(circle at 50% 50%, #3533cd, transparent 100%, transparent 100%);
-  mask-image: radial-gradient(circle, black 3px, transparent 3px);
-  mask-size: 8px 8px;
-  mask-repeat: repeat-x;
-} */
-
-/* .game-score {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-} */
-
-/* .game-controls-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-} */
-
-/* .game-controls-container span {
-  text-align: center;
-} */
-
-/* .controls {
-  border: 2px dotted #3533cd;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 0.5rem;
-  align-items: center;
-} */
-
-/* .game-grid-options-container.controls-options {
-  display: flex;
-  gap: 0.3rem;
-  cursor: pointer;
-} */
-
-/* .controls-text {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 0.5rem;
-} */
-
-/* .grid-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  border-left: 8px dotted #3533cd;
-  border-right: 8px dotted #3533cd;
-} */
-
-
-
-/* GAME GRID CELL STYLES */
-/* .grid div {
-  width: 20px;
-  height: 20px;
-  border: 1px solid rgb(54, 42, 137, 0.4);
-} */
-
-/* TETROMINO SHAPE STYLES */
-/* .O-shape { background-color: #ffde59; }
-.I-shape { background-color: #ff914d; }
-.T-shape { background-color: #8c52ff; }
-.L-shape, .J-shape { background-color: #38b6ff; }
-.Z-shape, .S-shape { background-color: #d33c2d; } */
-
-/* .block {
-    width: 20px;
-    height: 20px;
-    border: 0.1px solid #3533cd;
-} */
-
-/* GAME OVER CONTAINER */
-/* .game-over-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-} */
-
-/* .game-over-options {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  width: 400px;
-  padding: 1.5rem;
-  background-color: #1a1a1a;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  position: relative;
-} */
-
-/* .game-over-options::after {
-  BORDER STYLES
-  content: "";
-  position: absolute;
-  width: 102%;
-  height: 107%;
-  background-image: linear-gradient(to bottom, transparent 60%, #3533cd 100%);
-  z-index: -1;
-  border-radius: 15px;
-} */
-
-/* .game-over-option {
-  font-size: 1rem;
-  cursor: pointer;
-  position: relative;
-} */
-
-/* .game-over-option::before {
-  content: ">> ";
-  color: transparent;
-  position: absolute;
-  left: -25px; 
-  transition: color 0.3s;
-} */
-
-/* .game-over-option:hover {
-  color: #febd59;
-  transition: color 0.3s;
-  transform: scale(1.1);
-} */
-
-/* .game-over-option:hover::before {
-  color: #febd59;
-} */

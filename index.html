@@ -61,16 +61,75 @@
 		<div class="game-container">
 			<h1 class="heading">TETRIS</h1>
 			<div class="game-wrapper">
-				<!-- MAIN GAME GRID -->
-				<div class="board-section"></div>
-
 				<div class="info-section">
-					<span id="score"> 1234567 </span>
-					<span id="level"> lv. 1 </span>
+					<!-- Buttons on the game -->
+					<div class="buttons-wrapper">
+						<div class="game-button-wrapper">
+							<button class="game-button" id="btn-pause">
+								<i class="fa-solid fa-pause"></i>
+							</button>
+
+							<span>PAUSE</span>
+						</div>
+
+						<div class="game-button-wrapper">
+							<button class="game-button" id="btn-volume">
+								<i class="fa-solid fa-volume-high"></i>
+								<i class="fa-solid fa-volume-xmark"></i>
+							</button>
+
+							<span>VOLUME</span>
+						</div>
+
+						<div class="game-button-wrapper">
+							<button class="game-button" id="btn-help">
+								<i class="fa-solid fa-question"></i>
+							</button>
+
+							<span>HELP</span>
+						</div>
+					</div>
+
+					<div class="game-info">
+						<span>LEVEL</span>
+						<span id="level"> lv. 1 </span>
+					</div>
+				</div>
+
+				<!-- MAIN GAME GRID -->
+				<div class="board-container">
+					<div class="board-section"></div>
+				</div>
+
+				<div class="info-section right">
+					<div class="lives">
+						<i class="fa-solid fa-heart fa-xl"></i>
+						<i class="fa-solid fa-heart fa-xl"></i>
+						<i class="fa-solid fa-heart fa-xl"></i>
+						<i class="fa-solid fa-heart fa-xl"></i>
+						<i class="fa-solid fa-heart fa-xl"></i>
+					</div>
+
+					<div class="scores-wrapper">
+						<div>
+							<span>SCORE</span>
+							<span id="score">00</span>
+						</div>
+
+						<div>
+							<span>HIGH</span>
+							<span>00</span>
+						</div>
+					</div>
+
+					<div class="game-info">
+						<span>TIMER</span>
+						<span>00:00:00</span>
+					</div>
 				</div>
 
 				<!-- CONTROLS -->
-				<div class="control-section">
+				<!-- <div class="control-section">
 					<div class="col">
 						<div class="arrow-control">
 							<div></div>
@@ -97,21 +156,7 @@
 							<i class="fa-solid fa-angles-down"></i>
 						</button>
 					</div>
-				</div>
-
-				<!-- SETTING SECTION -->
-				<div class="setting-section">
-					<button class="btn" id="btn-pause">
-						<i class="fa-solid fa-pause"></i>
-					</button>
-					<button class="btn" id="btn-volume">
-						<i class="fa-solid fa-volume-high"></i>
-						<i class="fa-solid fa-volume-xmark"></i>
-					</button>
-					<button class="btn" id="btn-help">
-						<i class="fa-solid fa-question"></i>
-					</button>
-				</div>
+				</div> -->
 			</div>
 		</div>
 
