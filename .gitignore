@@ -1,0 +1,5 @@
+# Ignore .vscode folder
+.vscode
+
+# Ignore system files that might appear on external disk
+.DS_Store
