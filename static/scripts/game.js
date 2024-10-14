@@ -1,22 +1,5 @@
 let field = document.getElementsByClassName("block");
 
-let game = {
-	score: START_SCORE,
-	speed: START_SPEED,
-	level: 1,
-	state: GAME_STATE.END,
-	interval: null,
-};
-
-let grid = newGrid(GRID_WIDTH, GRID_HEIGHT);
-
-let tetromino = null;
-
-let score_span = document.querySelector("#score");
-let level_span = document.querySelector("#level");
-
-score_span.innerHTML = game.score;
-
 // INITIAL NEW GRID
 const newGrid = (width, height) => {
 	let grid = new Array(height);
@@ -40,6 +23,23 @@ const newGrid = (width, height) => {
 		height: height,
 	};
 };
+
+let game = {
+	score: START_SCORE,
+	speed: START_SPEED,
+	level: 1,
+	state: GAME_STATE.END,
+	interval: null,
+};
+
+let grid = newGrid(GRID_WIDTH, GRID_HEIGHT);
+
+let tetromino = null;
+
+let score_span = document.querySelector("#score");
+let level_span = document.querySelector("#level");
+
+score_span.innerHTML = game.score;
 
 // RESET GRID
 const resetGrid = grid => {
