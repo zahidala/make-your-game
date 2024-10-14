@@ -29,7 +29,9 @@ let game = {
 	speed: START_SPEED,
 	level: 1,
 	state: GAME_STATE.END,
-	interval: null,
+	timerRequestId: null,
+	gameLoopRequestId: null,
+	lastUpdateTime: 0,
 };
 
 let grid = newGrid(GRID_WIDTH, GRID_HEIGHT);
@@ -248,42 +250,76 @@ const checkGrid = grid => {
 	if (row_count > 0) updateGame(row_count);
 };
 
-const gameLoop = () => {
+const updateTimer = () => {
 	if (game.state === GAME_STATE.PLAY) {
-		if (movable(tetromino, grid, DIRECTION.DOWN)) {
-			moveDown(tetromino, grid);
-		} else {
-			updateGrid(tetromino, grid);
-			checkGrid(grid);
-			tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
+		const now = new Date();
+		const elapsedTime = now - game.startTime;
+		const hours = Math.floor(elapsedTime / 3600000);
+		const minutes = Math.floor((elapsedTime % 3600000) / 60000);
+		const seconds = Math.floor((elapsedTime % 60000) / 1000);
 
-			// CHECK GRID IS FULL -> GAME OVER
+		const formattedHours = String(hours).padStart(2, "0");
+		const formattedMinutes = String(minutes).padStart(2, "0");
+		const formattedSeconds = String(seconds).padStart(2, "0");
+
+		// Format time as 00:00:00
+		let timeString = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+
+		document.querySelector("#time").innerHTML = timeString;
+
+		// Request the next frame
+		game.timerRequestId = requestAnimationFrame(updateTimer);
+	}
+};
+
+const gameLoop = timestamp => {
+	if (game.state === GAME_STATE.PLAY) {
+		if (!game.lastUpdateTime) game.lastUpdateTime = timestamp;
+		const elapsedTime = timestamp - game.lastUpdateTime;
+
+		if (elapsedTime > game.speed) {
 			if (movable(tetromino, grid, DIRECTION.DOWN)) {
-				drawTetromino(tetromino, grid);
+				moveDown(tetromino, grid);
 			} else {
-				// GAME OVER
-				game.state = GAME_STATE.END;
-				let body = document.querySelector("body");
-				body.classList.add("end");
-				body.classList.remove("play");
+				updateGrid(tetromino, grid);
+				checkGrid(grid);
+				tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
 
-				let rs_level = document.querySelector("#result-level");
-				let rs_score = document.querySelector("#result-score");
+				// CHECK GRID IS FULL -> GAME OVER
+				if (movable(tetromino, grid, DIRECTION.DOWN)) {
+					drawTetromino(tetromino, grid);
+				} else {
+					// GAME OVER
+					game.state = GAME_STATE.END;
+					let body = document.querySelector("body");
+					body.classList.add("end");
+					body.classList.remove("play");
 
-				rs_level.innerHTML = game.level;
-				rs_score.innerHTML = game.score;
+					let rs_level = document.querySelector("#result-level");
+					let rs_score = document.querySelector("#result-score");
+
+					rs_level.innerHTML = game.level;
+					rs_score.innerHTML = game.score;
+				}
 			}
+			game.lastUpdateTime = timestamp;
 		}
+
+		// Request the next frame
+		game.gameLoopRequestId = requestAnimationFrame(gameLoop);
 	}
 };
 
 const gameStart = () => {
 	game.state = GAME_STATE.PLAY;
+	game.startTime = new Date(); // Set the start time
 	level_span.innerHTML = "1";
 	score_span.innerHTML = "0";
 	tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
 	drawTetromino(tetromino, grid);
-	game.interval = setInterval(gameLoop, game.speed);
+	game.lastUpdateTime = 0; // Reset the last update time
+	game.gameLoopRequestId = requestAnimationFrame(gameLoop); // Start the game loop
+	game.timerRequestId = requestAnimationFrame(updateTimer); // Start the timer
 
 	document.body.classList.add("play");
 };
@@ -297,8 +333,6 @@ const updateGame = row_count => {
 
 	if (new_speed !== game.speed) {
 		game.speed = new_speed;
-		clearInterval(game.interval);
-		game.interval = setInterval(gameLoop, game.speed);
 	}
 
 	level_span.innerHTML = game.level;
@@ -307,21 +341,29 @@ const updateGame = row_count => {
 
 const gamePause = () => {
 	game.state = GAME_STATE.PAUSE;
+	cancelAnimationFrame(game.timerRequestId); // Stop the timer
+	cancelAnimationFrame(game.gameLoopRequestId); // Stop the game loop
 };
 
 const gameResume = () => {
 	game.state = GAME_STATE.PLAY;
+	game.startTime = new Date(new Date() - game.elapsedTime); // Adjust start time
+	game.timerRequestId = requestAnimationFrame(updateTimer); // Resume the timer
+	game.gameLoopRequestId = requestAnimationFrame(gameLoop); // Resume the game loop
 };
 
 const gameReset = () => {
-	clearInterval(game.interval);
+	cancelAnimationFrame(game.gameLoopRequestId);
+	cancelAnimationFrame(game.timerRequestId); // Clear the timer interval
 	resetGrid(grid);
 	game.score = START_SCORE;
 	game.speed = START_SPEED;
 	game.state = GAME_STATE.END;
 	game.level = 1;
-	game.interval = null;
+	game.gameLoopRequestId = null;
+	game.timerRequestId = null; // Reset the timer interval
 	tetromino = null;
+	document.querySelector("#time").innerHTML = "00:00:00"; // Reset timer display
 };
 
 const continueGame = () => {
@@ -364,6 +406,7 @@ document.addEventListener("keydown", e => {
 				body.classList.add("play");
 				gameResume();
 			}
+			break;
 	}
 });
 
