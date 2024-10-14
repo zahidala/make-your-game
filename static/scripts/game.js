@@ -1,7 +1,7 @@
 let field = document.getElementsByClassName("block");
 
 // INITIAL NEW GRID
-newGrid = (width, height) => {
+const newGrid = (width, height) => {
 	let grid = new Array(height);
 	for (let i = 0; i < height; i++) {
 		grid[i] = new Array(width);
@@ -25,7 +25,7 @@ newGrid = (width, height) => {
 };
 
 // RESET GRID
-resetGrid = grid => {
+const resetGrid = grid => {
 	for (let i = 0; i < grid.height; i++) {
 		// row
 		for (let j = 0; j < grid.width; j++) {
@@ -41,7 +41,7 @@ resetGrid = grid => {
 };
 
 // CREATE NEW TETROMINO
-newTetromino = (blocks, colors, start_x, start_y) => {
+const newTetromino = (blocks, colors, start_x, start_y) => {
 	let index = Math.floor(Math.random() * blocks.length);
 
 	return {
@@ -53,7 +53,7 @@ newTetromino = (blocks, colors, start_x, start_y) => {
 };
 
 // DRAW TETROMINO ON GRID
-drawTetromino = (tetromino, grid) => {
+const drawTetromino = (tetromino, grid) => {
 	tetromino.block.forEach((row, i) => {
 		row.forEach((value, j) => {
 			let x = tetromino.x + i;
@@ -66,7 +66,7 @@ drawTetromino = (tetromino, grid) => {
 };
 
 // CLEAR TETROMINO ON GRID
-clearTetromino = (tetromino, grid) => {
+const clearTetromino = (tetromino, grid) => {
 	tetromino.block.forEach((row, i) => {
 		row.forEach((value, j) => {
 			let x = tetromino.x + i;
@@ -79,12 +79,12 @@ clearTetromino = (tetromino, grid) => {
 };
 
 // CHECK IF FIELD IS IN GRID
-isInGrid = (x, y, grid) => {
+const isInGrid = (x, y, grid) => {
 	return x < grid.height && x >= 0 && y >= 0 && y < grid.width;
 };
 
 // CHECK IF FIELD IS FILLED
-isFilled = (x, y, grid) => {
+const isFilled = (x, y, grid) => {
 	if (!isInGrid(x, y, grid)) {
 		return false;
 	} else {
@@ -93,7 +93,7 @@ isFilled = (x, y, grid) => {
 };
 
 // CHECK IF TETROMINO IS MOVABLE
-movable = (tetromino, grid, direction) => {
+const movable = (tetromino, grid, direction) => {
 	let newX = tetromino.x;
 	let newY = tetromino.y;
 
@@ -119,7 +119,7 @@ movable = (tetromino, grid, direction) => {
 };
 
 // MOVE TETROMINO DOWN
-moveDown = (tetromino, grid) => {
+const moveDown = (tetromino, grid) => {
 	if (!movable(tetromino, grid, DIRECTION.DOWN)) return;
 	clearTetromino(tetromino, grid);
 	tetromino.x++;
@@ -127,7 +127,7 @@ moveDown = (tetromino, grid) => {
 };
 
 // MOVE TETROMINO LEFT
-moveLeft = (tetromino, grid) => {
+const moveLeft = (tetromino, grid) => {
 	if (!movable(tetromino, grid, DIRECTION.LEFT)) return;
 	clearTetromino(tetromino, grid);
 	tetromino.y--;
@@ -135,7 +135,7 @@ moveLeft = (tetromino, grid) => {
 };
 
 // MOVE TETROMINO RIGHT
-moveRight = (tetromino, grid) => {
+const moveRight = (tetromino, grid) => {
 	if (!movable(tetromino, grid, DIRECTION.RIGHT)) return;
 	clearTetromino(tetromino, grid);
 	tetromino.y++;
@@ -143,7 +143,7 @@ moveRight = (tetromino, grid) => {
 };
 
 // CHECK IF TETROMINO IS ROTATABLE
-rotatable = (tetromino, grid) => {
+const rotatable = (tetromino, grid) => {
 	// CLONE TETROMINO
 	let cloneBlock = JSON.parse(JSON.stringify(tetromino.block));
 
@@ -166,7 +166,7 @@ rotatable = (tetromino, grid) => {
 };
 
 // ROTATE TETROMINO CLOCKWISE
-rotate = (tetromino, grid) => {
+const rotate = (tetromino, grid) => {
 	if (!rotatable(tetromino, grid)) return;
 	clearTetromino(tetromino, grid);
 	for (let y = 0; y < tetromino.block.length; y++) {
@@ -179,7 +179,7 @@ rotate = (tetromino, grid) => {
 };
 
 // HARD DROP TETROMINO
-hardDrop = (tetromino, grid) => {
+const hardDrop = (tetromino, grid) => {
 	clearTetromino(tetromino, grid);
 	while (movable(tetromino, grid, DIRECTION.DOWN)) {
 		tetromino.x++;
@@ -188,7 +188,7 @@ hardDrop = (tetromino, grid) => {
 };
 
 // UPGRADE GRID WHEN TETROMINO IS DROPPED
-updateGrid = (tetromino, grid) => {
+const updateGrid = (tetromino, grid) => {
 	tetromino.block.forEach((row, i) => {
 		row.forEach((value, j) => {
 			let x = tetromino.x + i;
@@ -201,14 +201,14 @@ updateGrid = (tetromino, grid) => {
 };
 
 // CHECK IF ROW IS FILLED
-checkFilledRow = row => {
+const checkFilledRow = row => {
 	return row.every(v => {
 		return v.value !== 0;
 	});
 };
 
 // DELETE FILLED ROW AND UPDATE SCORE
-deleteRow = (row_index, grid) => {
+const deleteRow = (row_index, grid) => {
 	for (let row = row_index; row > 0; row--) {
 		for (let col = 0; col < 10; col++) {
 			grid.board[row][col].value = grid.board[row - 1][col].value;
@@ -220,7 +220,7 @@ deleteRow = (row_index, grid) => {
 };
 
 // CHECK GRID FOR FILLED ROW/ROW TO DELETE
-checkGrid = grid => {
+const checkGrid = grid => {
 	let row_count = 0;
 	grid.board.forEach((row, i) => {
 		if (checkFilledRow(row)) {
@@ -248,7 +248,7 @@ let level_span = document.querySelector("#level");
 
 score_span.innerHTML = game.score;
 
-gameLoop = () => {
+const gameLoop = () => {
 	if (game.state === GAME_STATE.PLAY) {
 		if (movable(tetromino, grid, DIRECTION.DOWN)) {
 			moveDown(tetromino, grid);
@@ -277,7 +277,7 @@ gameLoop = () => {
 	}
 };
 
-gameStart = () => {
+const gameStart = () => {
 	game.state = GAME_STATE.PLAY;
 	level_span.innerHTML = "lv. 1";
 	score_span.innerHTML = "0";
@@ -288,7 +288,7 @@ gameStart = () => {
 	document.body.classList.add("play");
 };
 
-updateGame = row_count => {
+const updateGame = row_count => {
 	game.score += row_count * MAIN_SCORE + (row_count - 1) * BONUS_SCORE;
 
 	game.level = Math.floor(game.score / 800) + 1;
@@ -305,15 +305,15 @@ updateGame = row_count => {
 	score_span.innerHTML = game.score;
 };
 
-gamePause = () => {
+const gamePause = () => {
 	game.state = GAME_STATE.PAUSE;
 };
 
-gameResume = () => {
+const gameResume = () => {
 	game.state = GAME_STATE.PLAY;
 };
 
-gameReset = () => {
+const gameReset = () => {
 	clearInterval(game.interval);
 	resetGrid(grid);
 	game.score = START_SCORE;
