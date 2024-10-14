@@ -324,6 +324,13 @@ gameReset = () => {
 	tetromino = null;
 };
 
+const continueGame = () => {
+	if (game.state === GAME_STATE.PAUSE) {
+		gameResume();
+	}
+	document.body.classList.add("play");
+};
+
 // add keyboard event
 document.addEventListener("keydown", e => {
 	let body = document.querySelector("body");
@@ -360,69 +367,53 @@ document.addEventListener("keydown", e => {
 	}
 });
 
-const continueGame = () => {
-	if (game.state === GAME_STATE.PAUSE) {
-		gameResume();
-	}
-	document.body.classList.add("play");
+const buttons = {
+	"btn-drop": () => hardDrop(tetromino, grid),
+	"btn-up": () => rotate(tetromino, grid),
+	"btn-down": () => moveDown(tetromino, grid),
+	"btn-left": () => moveLeft(tetromino, grid),
+	"btn-right": () => moveRight(tetromino, grid),
+	"btn-play": () => {
+		const body = document.querySelector("body");
+		body.classList.add("play");
+		gameReset();
+		gameStart();
+	},
+	"btn-continue": () => continueGame(),
+	"btn-volume": () => {
+		const body = document.querySelector("body");
+		body.classList.toggle("muted");
+		if (body.classList.contains("muted")) {
+			pauseMusic();
+		} else {
+			playMusic();
+		}
+	},
+	"btn-pause": () => {
+		const body = document.querySelector("body");
+		gamePause();
+		const btn_play = document.querySelector("#btn-play");
+		btn_play.innerHTML = "resume";
+		body.classList.remove("play");
+		body.classList.add("pause");
+	},
+	"btn-new-game": () => {
+		const body = document.querySelector("body");
+		gameReset();
+		body.classList.add("play");
+		body.classList.remove("pause");
+		body.classList.remove("end");
+		gameStart();
+	},
+	"btn-help": () => {
+		const how_to = document.querySelector(".how-to");
+		how_to.classList.toggle("active");
+	},
 };
 
-let btns = document.querySelectorAll('[id*="btn-"]');
-
-btns.forEach(e => {
-	let btn_id = e.getAttribute("id");
-	let body = document.querySelector("body");
-	e.addEventListener("click", () => {
-		switch (btn_id) {
-			case "btn-drop":
-				hardDrop(tetromino, grid);
-				break;
-			case "btn-up":
-				rotate(tetromino, grid);
-				break;
-			case "btn-down":
-				moveDown(tetromino, grid);
-				break;
-			case "btn-left":
-				moveLeft(tetromino, grid);
-				break;
-			case "btn-right":
-				moveRight(tetromino, grid);
-				break;
-			case "btn-play":
-				body.classList.add("play");
-				gameReset();
-				gameStart();
-				break;
-			case "btn-continue":
-				continueGame();
-				break;
-			case "btn-volume":
-				body.classList.toggle("muted");
-				if (body.classList.contains("muted")) {
-					pauseMusic();
-				} else {
-					playMusic();
-				}
-				break;
-			case "btn-pause":
-				gamePause();
-				let btn_play = document.querySelector("#btn-play");
-				btn_play.innerHTML = "resume";
-				body.classList.remove("play");
-				body.classList.add("pause");
-				break;
-			case "btn-new-game":
-				gameReset();
-				body.classList.add("play");
-				body.classList.remove("pause");
-				body.classList.remove("end");
-				gameStart();
-				break;
-			case "btn-help":
-				let how_to = document.querySelector(".how-to");
-				how_to.classList.toggle("active");
-				break;
-		}
-	});
+Object.entries(buttons).forEach(([id, action]) => {
+	const button = document.getElementById(id);
+	if (button) {
+		button.addEventListener("click", action);
+	}
 });
