@@ -1,5 +1,22 @@
 let field = document.getElementsByClassName("block");
 
+let game = {
+	score: START_SCORE,
+	speed: START_SPEED,
+	level: 1,
+	state: GAME_STATE.END,
+	interval: null,
+};
+
+let grid = newGrid(GRID_WIDTH, GRID_HEIGHT);
+
+let tetromino = null;
+
+let score_span = document.querySelector("#score");
+let level_span = document.querySelector("#level");
+
+score_span.innerHTML = game.score;
+
 // INITIAL NEW GRID
 const newGrid = (width, height) => {
 	let grid = new Array(height);
@@ -231,23 +248,6 @@ const checkGrid = grid => {
 	if (row_count > 0) updateGame(row_count);
 };
 
-let game = {
-	score: START_SCORE,
-	speed: START_SPEED,
-	level: 1,
-	state: GAME_STATE.END,
-	interval: null,
-};
-
-let grid = newGrid(GRID_WIDTH, GRID_HEIGHT);
-
-let tetromino = null;
-
-let score_span = document.querySelector("#score");
-let level_span = document.querySelector("#level");
-
-score_span.innerHTML = game.score;
-
 const gameLoop = () => {
 	if (game.state === GAME_STATE.PLAY) {
 		if (movable(tetromino, grid, DIRECTION.DOWN)) {
@@ -279,7 +279,7 @@ const gameLoop = () => {
 
 const gameStart = () => {
 	game.state = GAME_STATE.PLAY;
-	level_span.innerHTML = "lv. 1";
+	level_span.innerHTML = "1";
 	score_span.innerHTML = "0";
 	tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
 	drawTetromino(tetromino, grid);
@@ -301,7 +301,7 @@ const updateGame = row_count => {
 		game.interval = setInterval(gameLoop, game.speed);
 	}
 
-	level_span.innerHTML = "lv. " + game.level;
+	level_span.innerHTML = game.level;
 	score_span.innerHTML = game.score;
 };
 
