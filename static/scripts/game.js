@@ -84,6 +84,20 @@ const drawTetromino = (tetromino, grid) => {
 	});
 };
 
+// DRAW GHOST TETROMINO ON GRID
+drawGhostTetromino = (tetromino, grid) => {
+	let ghostTetromino = calculateGhostPosition(tetromino, grid);
+	ghostTetromino.block.forEach((row, i) => {
+		row.forEach((value, j) => {
+			let x = ghostTetromino.x + i;
+			let y = ghostTetromino.y + j;
+			if (value > 0 && grid.board[x][y].value === 0) {
+				field[grid.board[x][y].index].style.background = "rgba(255, 255, 255, 0.2)";
+			}
+		});
+	});
+};
+
 // CLEAR TETROMINO ON GRID
 const clearTetromino = (tetromino, grid) => {
 	tetromino.block.forEach((row, i) => {
@@ -91,6 +105,19 @@ const clearTetromino = (tetromino, grid) => {
 			let x = tetromino.x + i;
 			let y = tetromino.y + j;
 			if (value > 0) {
+				field[grid.board[x][y].index].style.background = TRANSPARENT;
+			}
+		});
+	});
+};
+
+clearGhostTetromino = (tetromino, grid) => {
+	let ghostTetromino = calculateGhostPosition(tetromino, grid);
+	ghostTetromino.block.forEach((row, i) => {
+		row.forEach((value, j) => {
+			let x = ghostTetromino.x + i;
+			let y = ghostTetromino.y + j;
+			if (value > 0 && grid.board[x][y].value === 0) {
 				field[grid.board[x][y].index].style.background = TRANSPARENT;
 			}
 		});
@@ -138,26 +165,32 @@ const movable = (tetromino, grid, direction) => {
 };
 
 // MOVE TETROMINO DOWN
-const moveDown = (tetromino, grid) => {
+moveDown = (tetromino, grid) => {
 	if (!movable(tetromino, grid, DIRECTION.DOWN)) return;
 	clearTetromino(tetromino, grid);
+	clearGhostTetromino(tetromino, grid);
 	tetromino.x++;
+	drawGhostTetromino(tetromino, grid);
 	drawTetromino(tetromino, grid);
 };
 
 // MOVE TETROMINO LEFT
-const moveLeft = (tetromino, grid) => {
+moveLeft = (tetromino, grid) => {
 	if (!movable(tetromino, grid, DIRECTION.LEFT)) return;
 	clearTetromino(tetromino, grid);
+	clearGhostTetromino(tetromino, grid);
 	tetromino.y--;
+	drawGhostTetromino(tetromino, grid);
 	drawTetromino(tetromino, grid);
 };
 
 // MOVE TETROMINO RIGHT
-const moveRight = (tetromino, grid) => {
+moveRight = (tetromino, grid) => {
 	if (!movable(tetromino, grid, DIRECTION.RIGHT)) return;
 	clearTetromino(tetromino, grid);
+	clearGhostTetromino(tetromino, grid);
 	tetromino.y++;
+	drawGhostTetromino(tetromino, grid);
 	drawTetromino(tetromino, grid);
 };
 
@@ -185,15 +218,17 @@ const rotatable = (tetromino, grid) => {
 };
 
 // ROTATE TETROMINO CLOCKWISE
-const rotate = (tetromino, grid) => {
+rotate = (tetromino, grid) => {
 	if (!rotatable(tetromino, grid)) return;
 	clearTetromino(tetromino, grid);
+	clearGhostTetromino(tetromino, grid);
 	for (let y = 0; y < tetromino.block.length; y++) {
 		for (let x = 0; x < y; ++x) {
 			[tetromino.block[x][y], tetromino.block[y][x]] = [tetromino.block[y][x], tetromino.block[x][y]];
 		}
 	}
 	tetromino.block.forEach(row => row.reverse());
+	drawGhostTetromino(tetromino, grid);
 	drawTetromino(tetromino, grid);
 };
 
@@ -204,6 +239,15 @@ const hardDrop = (tetromino, grid) => {
 		tetromino.x++;
 	}
 	drawTetromino(tetromino, grid);
+};
+
+// GHOST TETROMINO - GUIDE TO FALLING TETROMINO POSITION
+calculateGhostPosition = (tetromino, grid) => {
+	let ghostTetromino = JSON.parse(JSON.stringify(tetromino));
+	while (movable(ghostTetromino, grid, DIRECTION.DOWN)) {
+		ghostTetromino.x++;
+	}
+	return ghostTetromino;
 };
 
 // UPGRADE GRID WHEN TETROMINO IS DROPPED
