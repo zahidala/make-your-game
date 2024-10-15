@@ -79,9 +79,11 @@ const START_SPEED = 1000;
 const MAIN_SCORE = 100;
 const BONUS_SCORE = 30;
 
+const LIVES_COUNT = 5;
+
 // game state
 const GAME_STATE = {
 	PLAY: "PLAY",
 	PAUSE: "PAUSE",
 	END: "END",
-}
+};

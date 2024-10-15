@@ -1,7 +1,7 @@
 let field = document.getElementsByClassName("block");
 
 // INITIAL NEW GRID
-newGrid = (width, height) => {
+const newGrid = (width, height) => {
 	let grid = new Array(height);
 	for (let i = 0; i < height; i++) {
 		grid[i] = new Array(width);
@@ -24,8 +24,27 @@ newGrid = (width, height) => {
 	};
 };
 
+let game = {
+	score: START_SCORE,
+	speed: START_SPEED,
+	level: 1,
+	state: GAME_STATE.END,
+	timerRequestId: null,
+	gameLoopRequestId: null,
+	lastUpdateTime: 0,
+};
+
+let grid = newGrid(GRID_WIDTH, GRID_HEIGHT);
+
+let tetromino = null;
+
+let score_span = document.querySelector("#score");
+let level_span = document.querySelector("#level");
+
+score_span.innerHTML = game.score;
+
 // RESET GRID
-resetGrid = grid => {
+const resetGrid = grid => {
 	for (let i = 0; i < grid.height; i++) {
 		// row
 		for (let j = 0; j < grid.width; j++) {
@@ -41,7 +60,7 @@ resetGrid = grid => {
 };
 
 // CREATE NEW TETROMINO
-newTetromino = (blocks, colors, start_x, start_y) => {
+const newTetromino = (blocks, colors, start_x, start_y) => {
 	let index = Math.floor(Math.random() * blocks.length);
 
 	return {
@@ -53,7 +72,7 @@ newTetromino = (blocks, colors, start_x, start_y) => {
 };
 
 // DRAW TETROMINO ON GRID
-drawTetromino = (tetromino, grid) => {
+const drawTetromino = (tetromino, grid) => {
 	tetromino.block.forEach((row, i) => {
 		row.forEach((value, j) => {
 			let x = tetromino.x + i;
@@ -66,7 +85,7 @@ drawTetromino = (tetromino, grid) => {
 };
 
 // CLEAR TETROMINO ON GRID
-clearTetromino = (tetromino, grid) => {
+const clearTetromino = (tetromino, grid) => {
 	tetromino.block.forEach((row, i) => {
 		row.forEach((value, j) => {
 			let x = tetromino.x + i;
@@ -79,12 +98,12 @@ clearTetromino = (tetromino, grid) => {
 };
 
 // CHECK IF FIELD IS IN GRID
-isInGrid = (x, y, grid) => {
+const isInGrid = (x, y, grid) => {
 	return x < grid.height && x >= 0 && y >= 0 && y < grid.width;
 };
 
 // CHECK IF FIELD IS FILLED
-isFilled = (x, y, grid) => {
+const isFilled = (x, y, grid) => {
 	if (!isInGrid(x, y, grid)) {
 		return false;
 	} else {
@@ -93,7 +112,7 @@ isFilled = (x, y, grid) => {
 };
 
 // CHECK IF TETROMINO IS MOVABLE
-movable = (tetromino, grid, direction) => {
+const movable = (tetromino, grid, direction) => {
 	let newX = tetromino.x;
 	let newY = tetromino.y;
 
@@ -119,7 +138,7 @@ movable = (tetromino, grid, direction) => {
 };
 
 // MOVE TETROMINO DOWN
-moveDown = (tetromino, grid) => {
+const moveDown = (tetromino, grid) => {
 	if (!movable(tetromino, grid, DIRECTION.DOWN)) return;
 	clearTetromino(tetromino, grid);
 	tetromino.x++;
@@ -127,7 +146,7 @@ moveDown = (tetromino, grid) => {
 };
 
 // MOVE TETROMINO LEFT
-moveLeft = (tetromino, grid) => {
+const moveLeft = (tetromino, grid) => {
 	if (!movable(tetromino, grid, DIRECTION.LEFT)) return;
 	clearTetromino(tetromino, grid);
 	tetromino.y--;
@@ -135,7 +154,7 @@ moveLeft = (tetromino, grid) => {
 };
 
 // MOVE TETROMINO RIGHT
-moveRight = (tetromino, grid) => {
+const moveRight = (tetromino, grid) => {
 	if (!movable(tetromino, grid, DIRECTION.RIGHT)) return;
 	clearTetromino(tetromino, grid);
 	tetromino.y++;
@@ -143,7 +162,7 @@ moveRight = (tetromino, grid) => {
 };
 
 // CHECK IF TETROMINO IS ROTATABLE
-rotatable = (tetromino, grid) => {
+const rotatable = (tetromino, grid) => {
 	// CLONE TETROMINO
 	let cloneBlock = JSON.parse(JSON.stringify(tetromino.block));
 
@@ -166,7 +185,7 @@ rotatable = (tetromino, grid) => {
 };
 
 // ROTATE TETROMINO CLOCKWISE
-rotate = (tetromino, grid) => {
+const rotate = (tetromino, grid) => {
 	if (!rotatable(tetromino, grid)) return;
 	clearTetromino(tetromino, grid);
 	for (let y = 0; y < tetromino.block.length; y++) {
@@ -179,7 +198,7 @@ rotate = (tetromino, grid) => {
 };
 
 // HARD DROP TETROMINO
-hardDrop = (tetromino, grid) => {
+const hardDrop = (tetromino, grid) => {
 	clearTetromino(tetromino, grid);
 	while (movable(tetromino, grid, DIRECTION.DOWN)) {
 		tetromino.x++;
@@ -188,7 +207,7 @@ hardDrop = (tetromino, grid) => {
 };
 
 // UPGRADE GRID WHEN TETROMINO IS DROPPED
-updateGrid = (tetromino, grid) => {
+const updateGrid = (tetromino, grid) => {
 	tetromino.block.forEach((row, i) => {
 		row.forEach((value, j) => {
 			let x = tetromino.x + i;
@@ -201,14 +220,14 @@ updateGrid = (tetromino, grid) => {
 };
 
 // CHECK IF ROW IS FILLED
-checkFilledRow = row => {
+const checkFilledRow = row => {
 	return row.every(v => {
 		return v.value !== 0;
 	});
 };
 
 // DELETE FILLED ROW AND UPDATE SCORE
-deleteRow = (row_index, grid) => {
+const deleteRow = (row_index, grid) => {
 	for (let row = row_index; row > 0; row--) {
 		for (let col = 0; col < 10; col++) {
 			grid.board[row][col].value = grid.board[row - 1][col].value;
@@ -220,7 +239,7 @@ deleteRow = (row_index, grid) => {
 };
 
 // CHECK GRID FOR FILLED ROW/ROW TO DELETE
-checkGrid = grid => {
+const checkGrid = grid => {
 	let row_count = 0;
 	grid.board.forEach((row, i) => {
 		if (checkFilledRow(row)) {
@@ -231,64 +250,81 @@ checkGrid = grid => {
 	if (row_count > 0) updateGame(row_count);
 };
 
-let game = {
-	score: START_SCORE,
-	speed: START_SPEED,
-	level: 1,
-	state: GAME_STATE.END,
-	interval: null,
-};
-
-let grid = newGrid(GRID_WIDTH, GRID_HEIGHT);
-
-let tetromino = null;
-
-let score_span = document.querySelector("#score");
-let level_span = document.querySelector("#level");
-
-score_span.innerHTML = game.score;
-
-gameLoop = () => {
+const updateTimer = () => {
 	if (game.state === GAME_STATE.PLAY) {
-		if (movable(tetromino, grid, DIRECTION.DOWN)) {
-			moveDown(tetromino, grid);
-		} else {
-			updateGrid(tetromino, grid);
-			checkGrid(grid);
-			tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
+		const now = new Date();
+		const elapsedTime = now - game.startTime;
+		const hours = Math.floor(elapsedTime / 3600000);
+		const minutes = Math.floor((elapsedTime % 3600000) / 60000);
+		const seconds = Math.floor((elapsedTime % 60000) / 1000);
 
-			// CHECK GRID IS FULL -> GAME OVER
-			if (movable(tetromino, grid, DIRECTION.DOWN)) {
-				drawTetromino(tetromino, grid);
-			} else {
-				// GAME OVER
-				game.state = GAME_STATE.END;
-				let body = document.querySelector("body");
-				body.classList.add("end");
-				body.classList.remove("play");
+		const formattedHours = String(hours).padStart(2, "0");
+		const formattedMinutes = String(minutes).padStart(2, "0");
+		const formattedSeconds = String(seconds).padStart(2, "0");
 
-				let rs_level = document.querySelector("#result-level");
-				let rs_score = document.querySelector("#result-score");
+		// Format time as 00:00:00
+		let timeString = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
 
-				rs_level.innerHTML = game.level;
-				rs_score.innerHTML = game.score;
-			}
-		}
+		document.querySelector("#time").innerHTML = timeString;
+
+		// Request the next frame
+		game.timerRequestId = requestAnimationFrame(updateTimer);
 	}
 };
 
-gameStart = () => {
+const gameLoop = timestamp => {
+	if (game.state === GAME_STATE.PLAY) {
+		if (!game.lastUpdateTime) game.lastUpdateTime = timestamp;
+		const elapsedTime = timestamp - game.lastUpdateTime;
+
+		if (elapsedTime > game.speed) {
+			if (movable(tetromino, grid, DIRECTION.DOWN)) {
+				moveDown(tetromino, grid);
+			} else {
+				updateGrid(tetromino, grid);
+				checkGrid(grid);
+				tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
+
+				// CHECK GRID IS FULL -> GAME OVER
+				if (movable(tetromino, grid, DIRECTION.DOWN)) {
+					drawTetromino(tetromino, grid);
+				} else {
+					// GAME OVER
+					game.state = GAME_STATE.END;
+					let body = document.querySelector("body");
+					body.classList.add("end");
+					body.classList.remove("play");
+
+					let rs_level = document.querySelector("#result-level");
+					let rs_score = document.querySelector("#result-score");
+
+					rs_level.innerHTML = game.level;
+					rs_score.innerHTML = game.score;
+				}
+			}
+			game.lastUpdateTime = timestamp;
+		}
+
+		// Request the next frame
+		game.gameLoopRequestId = requestAnimationFrame(gameLoop);
+	}
+};
+
+const gameStart = () => {
 	game.state = GAME_STATE.PLAY;
-	level_span.innerHTML = "lv. 1";
+	game.startTime = new Date(); // Set the start time
+	level_span.innerHTML = "1";
 	score_span.innerHTML = "0";
 	tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
 	drawTetromino(tetromino, grid);
-	game.interval = setInterval(gameLoop, game.speed);
+	game.lastUpdateTime = 0; // Reset the last update time
+	game.gameLoopRequestId = requestAnimationFrame(gameLoop); // Start the game loop
+	game.timerRequestId = requestAnimationFrame(updateTimer); // Start the timer
 
 	document.body.classList.add("play");
 };
 
-updateGame = row_count => {
+const updateGame = row_count => {
 	game.score += row_count * MAIN_SCORE + (row_count - 1) * BONUS_SCORE;
 
 	game.level = Math.floor(game.score / 800) + 1;
@@ -297,31 +333,44 @@ updateGame = row_count => {
 
 	if (new_speed !== game.speed) {
 		game.speed = new_speed;
-		clearInterval(game.interval);
-		game.interval = setInterval(gameLoop, game.speed);
 	}
 
-	level_span.innerHTML = "lv. " + game.level;
+	level_span.innerHTML = game.level;
 	score_span.innerHTML = game.score;
 };
 
-gamePause = () => {
+const gamePause = () => {
 	game.state = GAME_STATE.PAUSE;
+	cancelAnimationFrame(game.timerRequestId); // Stop the timer
+	cancelAnimationFrame(game.gameLoopRequestId); // Stop the game loop
 };
 
-gameResume = () => {
+const gameResume = () => {
 	game.state = GAME_STATE.PLAY;
+	game.startTime = new Date(new Date() - game.elapsedTime); // Adjust start time
+	game.timerRequestId = requestAnimationFrame(updateTimer); // Resume the timer
+	game.gameLoopRequestId = requestAnimationFrame(gameLoop); // Resume the game loop
 };
 
-gameReset = () => {
-	clearInterval(game.interval);
+const gameReset = () => {
+	cancelAnimationFrame(game.gameLoopRequestId);
+	cancelAnimationFrame(game.timerRequestId); // Clear the timer interval
 	resetGrid(grid);
 	game.score = START_SCORE;
 	game.speed = START_SPEED;
 	game.state = GAME_STATE.END;
 	game.level = 1;
-	game.interval = null;
+	game.gameLoopRequestId = null;
+	game.timerRequestId = null; // Reset the timer interval
 	tetromino = null;
+	document.querySelector("#time").innerHTML = "00:00:00"; // Reset timer display
+};
+
+const continueGame = () => {
+	if (game.state === GAME_STATE.PAUSE) {
+		gameResume();
+	}
+	document.body.classList.add("play");
 };
 
 // add keyboard event
@@ -357,72 +406,57 @@ document.addEventListener("keydown", e => {
 				body.classList.add("play");
 				gameResume();
 			}
+			break;
 	}
 });
 
-const continueGame = () => {
-	if (game.state === GAME_STATE.PAUSE) {
-		gameResume();
-	}
-	document.body.classList.add("play");
+const buttons = {
+	"btn-drop": () => hardDrop(tetromino, grid),
+	"btn-up": () => rotate(tetromino, grid),
+	"btn-down": () => moveDown(tetromino, grid),
+	"btn-left": () => moveLeft(tetromino, grid),
+	"btn-right": () => moveRight(tetromino, grid),
+	"btn-play": () => {
+		const body = document.querySelector("body");
+		body.classList.add("play");
+		gameReset();
+		gameStart();
+	},
+	"btn-continue": () => continueGame(),
+	"btn-volume": () => {
+		const body = document.querySelector("body");
+		body.classList.toggle("muted");
+		if (body.classList.contains("muted")) {
+			pauseMusic();
+		} else {
+			playMusic();
+		}
+	},
+	"btn-pause": () => {
+		const body = document.querySelector("body");
+		gamePause();
+		const btn_play = document.querySelector("#btn-play");
+		btn_play.innerHTML = "resume";
+		body.classList.remove("play");
+		body.classList.add("pause");
+	},
+	"btn-new-game": () => {
+		const body = document.querySelector("body");
+		gameReset();
+		body.classList.add("play");
+		body.classList.remove("pause");
+		body.classList.remove("end");
+		gameStart();
+	},
+	"btn-help": () => {
+		const how_to = document.querySelector(".how-to");
+		how_to.classList.toggle("active");
+	},
 };
 
-let btns = document.querySelectorAll('[id*="btn-"]');
-
-btns.forEach(e => {
-	let btn_id = e.getAttribute("id");
-	let body = document.querySelector("body");
-	e.addEventListener("click", () => {
-		switch (btn_id) {
-			case "btn-drop":
-				hardDrop(tetromino, grid);
-				break;
-			case "btn-up":
-				rotate(tetromino, grid);
-				break;
-			case "btn-down":
-				moveDown(tetromino, grid);
-				break;
-			case "btn-left":
-				moveLeft(tetromino, grid);
-				break;
-			case "btn-right":
-				moveRight(tetromino, grid);
-				break;
-			case "btn-play":
-				body.classList.add("play");
-				gameReset();
-				gameStart();
-				break;
-			case "btn-continue":
-				continueGame();
-				break;
-			case "btn-volume":
-				body.classList.toggle("muted");
-				if (body.classList.contains("muted")) {
-					pauseMusic();
-				} else {
-					playMusic();
-				}
-				break;
-			case "btn-pause":
-				gamePause();
-				let btn_play = document.querySelector("#btn-play");
-				btn_play.innerHTML = "resume";
-				body.classList.remove("play");
-				body.classList.add("pause");
-				break;
-			case "btn-new-game":
-				gameReset();
-				body.classList.add("play");
-				body.classList.remove("pause");
-				body.classList.remove("end");
-				gameStart();
-				break;
-			case "btn-help":
-				let how_to = document.querySelector(".how-to");
-				how_to.classList.toggle("active");
-				break;
-		}
-	});
+Object.entries(buttons).forEach(([id, action]) => {
+	const button = document.getElementById(id);
+	if (button) {
+		button.addEventListener("click", action);
+	}
 });
