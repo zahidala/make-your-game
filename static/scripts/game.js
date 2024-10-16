@@ -85,7 +85,7 @@ const drawTetromino = (tetromino, grid) => {
 };
 
 // DRAW GHOST TETROMINO ON GRID
-drawGhostTetromino = (tetromino, grid) => {
+const drawGhostTetromino = (tetromino, grid) => {
 	let ghostTetromino = calculateGhostPosition(tetromino, grid);
 	ghostTetromino.block.forEach((row, i) => {
 		row.forEach((value, j) => {
@@ -111,7 +111,7 @@ const clearTetromino = (tetromino, grid) => {
 	});
 };
 
-clearGhostTetromino = (tetromino, grid) => {
+const clearGhostTetromino = (tetromino, grid) => {
 	let ghostTetromino = calculateGhostPosition(tetromino, grid);
 	ghostTetromino.block.forEach((row, i) => {
 		row.forEach((value, j) => {
@@ -165,7 +165,7 @@ const movable = (tetromino, grid, direction) => {
 };
 
 // MOVE TETROMINO DOWN
-moveDown = (tetromino, grid) => {
+const moveDown = (tetromino, grid) => {
 	if (!movable(tetromino, grid, DIRECTION.DOWN)) return;
 	clearTetromino(tetromino, grid);
 	clearGhostTetromino(tetromino, grid);
@@ -175,7 +175,7 @@ moveDown = (tetromino, grid) => {
 };
 
 // MOVE TETROMINO LEFT
-moveLeft = (tetromino, grid) => {
+const moveLeft = (tetromino, grid) => {
 	if (!movable(tetromino, grid, DIRECTION.LEFT)) return;
 	clearTetromino(tetromino, grid);
 	clearGhostTetromino(tetromino, grid);
@@ -185,7 +185,7 @@ moveLeft = (tetromino, grid) => {
 };
 
 // MOVE TETROMINO RIGHT
-moveRight = (tetromino, grid) => {
+const moveRight = (tetromino, grid) => {
 	if (!movable(tetromino, grid, DIRECTION.RIGHT)) return;
 	clearTetromino(tetromino, grid);
 	clearGhostTetromino(tetromino, grid);
@@ -218,7 +218,7 @@ const rotatable = (tetromino, grid) => {
 };
 
 // ROTATE TETROMINO CLOCKWISE
-rotate = (tetromino, grid) => {
+const rotate = (tetromino, grid) => {
 	if (!rotatable(tetromino, grid)) return;
 	clearTetromino(tetromino, grid);
 	clearGhostTetromino(tetromino, grid);
@@ -242,7 +242,7 @@ const hardDrop = (tetromino, grid) => {
 };
 
 // GHOST TETROMINO - GUIDE TO FALLING TETROMINO POSITION
-calculateGhostPosition = (tetromino, grid) => {
+const calculateGhostPosition = (tetromino, grid) => {
 	let ghostTetromino = JSON.parse(JSON.stringify(tetromino));
 	while (movable(ghostTetromino, grid, DIRECTION.DOWN)) {
 		ghostTetromino.x++;
