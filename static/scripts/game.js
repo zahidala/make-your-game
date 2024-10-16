@@ -28,6 +28,7 @@ let game = {
 	score: START_SCORE,
 	speed: START_SPEED,
 	level: 1,
+	lives: START_LIVES,
 	state: GAME_STATE.END,
 	timerRequestId: null,
 	gameLoopRequestId: null,
@@ -294,6 +295,22 @@ const checkGrid = grid => {
 	if (row_count > 0) updateGame(row_count);
 };
 
+const updateLivesDisplay = (reset = false) => {
+	const lives = document.querySelector(".lives");
+	if (reset) {
+		lives.innerHTML = "";
+		for (let i = 0; i < game.lives; i++) {
+			lives.innerHTML += "<i class='fa-solid fa-heart fa-xl'></i>";
+		}
+	}
+
+	// Update lives display
+	const heart = lives.querySelector("i");
+	if (heart) {
+		heart.remove();
+	}
+};
+
 const updateTimer = () => {
 	if (game.state === GAME_STATE.PLAY) {
 		const now = new Date();
@@ -329,21 +346,27 @@ const gameLoop = timestamp => {
 				checkGrid(grid);
 				tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
 
-				// CHECK GRID IS FULL -> GAME OVER
+				// CHECK GRID IS FULL -> LOSE A LIFE
 				if (movable(tetromino, grid, DIRECTION.DOWN)) {
 					drawTetromino(tetromino, grid);
 				} else {
-					// GAME OVER
-					game.state = GAME_STATE.END;
-					let body = document.querySelector("body");
-					body.classList.add("end");
-					body.classList.remove("play");
-
-					let rs_level = document.querySelector("#result-level");
-					let rs_score = document.querySelector("#result-score");
-
-					rs_level.innerHTML = game.level;
-					rs_score.innerHTML = game.score;
+					game.lives--;
+					updateLivesDisplay();
+					if (game.lives > 0) {
+						resetGrid(grid);
+						tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
+						drawTetromino(tetromino, grid);
+					} else {
+						// GAME OVER
+						game.state = GAME_STATE.END;
+						let body = document.querySelector("body");
+						body.classList.add("end");
+						body.classList.remove("play");
+						let rs_level = document.querySelector("#result-level");
+						let rs_score = document.querySelector("#result-score");
+						rs_level.innerHTML = game.level;
+						rs_score.innerHTML = game.score;
+					}
 				}
 			}
 			game.lastUpdateTime = timestamp;
