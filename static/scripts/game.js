@@ -297,6 +297,8 @@ const checkGrid = grid => {
 
 const updateLivesDisplay = (reset = false) => {
 	const lives = document.querySelector(".lives");
+
+	// Reset lives display
 	if (reset) {
 		lives.innerHTML = "";
 		for (let i = 0; i < game.lives; i++) {
@@ -306,9 +308,7 @@ const updateLivesDisplay = (reset = false) => {
 
 	// Update lives display
 	const heart = lives.querySelector("i");
-	if (heart) {
-		heart.remove();
-	}
+	if (heart) heart.remove();
 };
 
 const updateTimer = () => {
