@@ -295,7 +295,7 @@ const checkGrid = grid => {
 	if (row_count > 0) updateGame(row_count);
 };
 
-const updateLivesDisplay = (reset = false) => {
+const updateLivesDisplay = ({ reset = false }) => {
 	const lives = document.querySelector(".lives");
 
 	// Reset lives display
@@ -427,6 +427,7 @@ const gameReset = () => {
 	game.speed = START_SPEED;
 	game.state = GAME_STATE.END;
 	game.level = 1;
+	updateLivesDisplay({ reset: true });
 	game.gameLoopRequestId = null;
 	game.timerRequestId = null; // Reset the timer interval
 	tetromino = null;
