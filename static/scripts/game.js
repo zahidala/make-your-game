@@ -304,11 +304,11 @@ const updateLivesDisplay = ({ reset = false }) => {
 		for (let i = 0; i < game.lives; i++) {
 			lives.innerHTML += "<i class='fa-solid fa-heart fa-xl'></i>";
 		}
+	} else {
+		// Update lives display
+		const heart = lives.querySelector("i");
+		if (heart) heart.remove();
 	}
-
-	// Update lives display
-	const heart = lives.querySelector("i");
-	if (heart) heart.remove();
 };
 
 const updateTimer = () => {

@@ -172,8 +172,11 @@ html {
 }
 
 .lives {
+	display: flex;
+	gap: 0.5rem;
 	align-self: center;
-	padding-bottom: 10px;
+	padding-block: 10px;
+	padding-bottom: 20px;
 }
 
 .board-container {
