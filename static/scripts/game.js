@@ -333,48 +333,65 @@ const updateTimer = () => {
 	}
 };
 
-const gameLoop = timestamp => {
-	if (game.state === GAME_STATE.PLAY) {
-		if (!game.lastUpdateTime) game.lastUpdateTime = timestamp;
-		const elapsedTime = timestamp - game.lastUpdateTime;
+const requestNextFrame = () => {
+	game.gameLoopRequestId = requestAnimationFrame(gameLoop);
+};
 
-		if (elapsedTime > game.speed) {
-			if (movable(tetromino, grid, DIRECTION.DOWN)) {
-				moveDown(tetromino, grid);
-			} else {
-				updateGrid(tetromino, grid);
-				checkGrid(grid);
-				tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
+const handleTetrominoLanding = () => {
+	updateGrid(tetromino, grid);
+	checkGrid(grid);
+	tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
 
-				// CHECK GRID IS FULL -> LOSE A LIFE
-				if (movable(tetromino, grid, DIRECTION.DOWN)) {
-					drawTetromino(tetromino, grid);
-				} else {
-					game.lives--;
-					updateLivesDisplay();
-					if (game.lives > 0) {
-						resetGrid(grid);
-						tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
-						drawTetromino(tetromino, grid);
-					} else {
-						// GAME OVER
-						game.state = GAME_STATE.END;
-						let body = document.querySelector("body");
-						body.classList.add("end");
-						body.classList.remove("play");
-						let rs_level = document.querySelector("#result-level");
-						let rs_score = document.querySelector("#result-score");
-						rs_level.innerHTML = game.level;
-						rs_score.innerHTML = game.score;
-					}
-				}
-			}
-			game.lastUpdateTime = timestamp;
-		}
-
-		// Request the next frame
-		game.gameLoopRequestId = requestAnimationFrame(gameLoop);
+	if (movable(tetromino, grid, DIRECTION.DOWN)) {
+		drawTetromino(tetromino, grid);
+	} else {
+		handleLifeLoss();
 	}
+};
+
+const handleLifeLoss = () => {
+	game.lives--;
+	updateLivesDisplay();
+
+	if (game.lives > 0) {
+		resetGrid(grid);
+		tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
+		drawTetromino(tetromino, grid);
+	} else {
+		endGame();
+	}
+};
+
+const gameLoop = timestamp => {
+	if (game.state !== GAME_STATE.PLAY) return;
+
+	if (!game.lastUpdateTime) game.lastUpdateTime = timestamp;
+	const elapsedTime = timestamp - game.lastUpdateTime;
+
+	if (elapsedTime <= game.speed) {
+		requestNextFrame();
+		return;
+	}
+
+	if (movable(tetromino, grid, DIRECTION.DOWN)) {
+		moveDown(tetromino, grid);
+	} else {
+		handleTetrominoLanding();
+	}
+
+	game.lastUpdateTime = timestamp;
+	requestNextFrame();
+};
+
+const endGame = () => {
+	game.state = GAME_STATE.END;
+	let body = document.querySelector("body");
+	body.classList.add("end");
+	body.classList.remove("play");
+	let rs_level = document.querySelector("#result-level");
+	let rs_score = document.querySelector("#result-score");
+	rs_level.innerHTML = game.level;
+	rs_score.innerHTML = game.score;
 };
 
 const gameStart = () => {
