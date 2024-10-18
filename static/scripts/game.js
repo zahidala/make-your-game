@@ -24,8 +24,11 @@ const newGrid = (width, height) => {
 	};
 };
 
+const highScore = parseInt(localStorage.getItem("highScore"));
+
 let game = {
 	score: START_SCORE,
+	high: highScore || 0,
 	speed: START_SPEED,
 	level: 1,
 	lives: START_LIVES,
@@ -41,8 +44,10 @@ let tetromino = null;
 
 let score_span = document.querySelector("#score");
 let level_span = document.querySelector("#level");
+let highScoreSpan = document.querySelector("#high");
 
 score_span.innerHTML = game.score;
+highScoreSpan.innerHTML = game.high;
 
 // RESET GRID
 const resetGrid = grid => {
@@ -337,18 +342,6 @@ const requestNextFrame = () => {
 	game.gameLoopRequestId = requestAnimationFrame(gameLoop);
 };
 
-const handleTetrominoLanding = () => {
-	updateGrid(tetromino, grid);
-	checkGrid(grid);
-	tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
-
-	if (movable(tetromino, grid, DIRECTION.DOWN)) {
-		drawTetromino(tetromino, grid);
-	} else {
-		handleLifeLoss();
-	}
-};
-
 const handleLifeLoss = () => {
 	game.lives--;
 	updateLivesDisplay();
@@ -359,6 +352,18 @@ const handleLifeLoss = () => {
 		drawTetromino(tetromino, grid);
 	} else {
 		endGame();
+	}
+};
+
+const handleTetrominoLanding = () => {
+	updateGrid(tetromino, grid);
+	checkGrid(grid);
+	tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
+
+	if (movable(tetromino, grid, DIRECTION.DOWN)) {
+		drawTetromino(tetromino, grid);
+	} else {
+		handleLifeLoss();
 	}
 };
 
@@ -384,6 +389,10 @@ const gameLoop = timestamp => {
 };
 
 const endGame = () => {
+	if (!highScore || game.score > highScore) {
+		localStorage.setItem("highScore", game.score);
+	}
+
 	game.state = GAME_STATE.END;
 	let body = document.querySelector("body");
 	body.classList.add("end");
