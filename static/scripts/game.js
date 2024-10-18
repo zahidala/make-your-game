@@ -295,7 +295,7 @@ const checkGrid = grid => {
 	if (row_count > 0) updateGame(row_count);
 };
 
-const updateLivesDisplay = ({ reset = false }) => {
+const updateLivesDisplay = ({ reset = false } = {}) => {
 	const lives = document.querySelector(".lives");
 
 	// Reset lives display
