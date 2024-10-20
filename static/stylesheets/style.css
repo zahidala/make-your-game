@@ -22,7 +22,7 @@ html {
 	height: calc(100% + 20px);
 	filter: contrast(130%) sepia(70%) blur(3px);
 	z-index: -1;
-	animation: fallBackground 5s linear infinite;
+	/* animation: fallBackground 5s linear infinite; */
 }
 
 /*  MENU CONTAINER STYLES  */
@@ -502,6 +502,56 @@ body.muted i.fa-volume-xmark {
 	justify-content: space-between;
 	align-items: center;
 	justify-content: space-between;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+	font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.controls {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+}
+
+.control-buttons-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.control-buttons-row {
+	display: flex;
+	justify-content: space-between;
+	gap: 0.5rem;
+	width: 100%;
 }
 
 /*  ANIMATION  */
