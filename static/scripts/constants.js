@@ -79,7 +79,7 @@ const START_SPEED = 1000;
 const MAIN_SCORE = 100;
 const BONUS_SCORE = 30;
 
-const LIVES_COUNT = 5;
+const START_LIVES = 3;
 
 // game state
 const GAME_STATE = {

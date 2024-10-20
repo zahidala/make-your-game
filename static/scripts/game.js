@@ -24,10 +24,14 @@ const newGrid = (width, height) => {
 	};
 };
 
+const highScore = parseInt(localStorage.getItem("highScore"));
+
 let game = {
 	score: START_SCORE,
+	high: highScore || 0,
 	speed: START_SPEED,
 	level: 1,
+	lives: START_LIVES,
 	state: GAME_STATE.END,
 	timerRequestId: null,
 	gameLoopRequestId: null,
@@ -40,8 +44,10 @@ let tetromino = null;
 
 let score_span = document.querySelector("#score");
 let level_span = document.querySelector("#level");
+let highScoreSpan = document.querySelector("#high");
 
 score_span.innerHTML = game.score;
+highScoreSpan.innerHTML = game.high;
 
 // RESET GRID
 const resetGrid = grid => {
@@ -294,6 +300,22 @@ const checkGrid = grid => {
 	if (row_count > 0) updateGame(row_count);
 };
 
+const updateLivesDisplay = ({ reset = false } = {}) => {
+	const lives = document.querySelector(".lives");
+
+	// Reset lives display
+	if (reset) {
+		lives.innerHTML = "";
+		for (let i = 0; i < game.lives; i++) {
+			lives.innerHTML += "<i class='fa-solid fa-heart fa-xl'></i>";
+		}
+	} else {
+		// Update lives display
+		const heart = lives.querySelector("i");
+		if (heart) heart.remove();
+	}
+};
+
 const updateTimer = () => {
 	if (game.state === GAME_STATE.PLAY) {
 		const now = new Date();
@@ -316,42 +338,69 @@ const updateTimer = () => {
 	}
 };
 
-const gameLoop = timestamp => {
-	if (game.state === GAME_STATE.PLAY) {
-		if (!game.lastUpdateTime) game.lastUpdateTime = timestamp;
-		const elapsedTime = timestamp - game.lastUpdateTime;
+const requestNextFrame = () => {
+	game.gameLoopRequestId = requestAnimationFrame(gameLoop);
+};
 
-		if (elapsedTime > game.speed) {
-			if (movable(tetromino, grid, DIRECTION.DOWN)) {
-				moveDown(tetromino, grid);
-			} else {
-				updateGrid(tetromino, grid);
-				checkGrid(grid);
-				tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
+const handleLifeLoss = () => {
+	game.lives--;
+	updateLivesDisplay();
 
-				// CHECK GRID IS FULL -> GAME OVER
-				if (movable(tetromino, grid, DIRECTION.DOWN)) {
-					drawTetromino(tetromino, grid);
-				} else {
-					// GAME OVER
-					game.state = GAME_STATE.END;
-					let body = document.querySelector("body");
-					body.classList.add("end");
-					body.classList.remove("play");
-
-					let rs_level = document.querySelector("#result-level");
-					let rs_score = document.querySelector("#result-score");
-
-					rs_level.innerHTML = game.level;
-					rs_score.innerHTML = game.score;
-				}
-			}
-			game.lastUpdateTime = timestamp;
-		}
-
-		// Request the next frame
-		game.gameLoopRequestId = requestAnimationFrame(gameLoop);
+	if (game.lives > 0) {
+		resetGrid(grid);
+		tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
+		drawTetromino(tetromino, grid);
+	} else {
+		endGame();
 	}
+};
+
+const handleTetrominoLanding = () => {
+	updateGrid(tetromino, grid);
+	checkGrid(grid);
+	tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
+
+	if (movable(tetromino, grid, DIRECTION.DOWN)) {
+		drawTetromino(tetromino, grid);
+	} else {
+		handleLifeLoss();
+	}
+};
+
+const gameLoop = timestamp => {
+	if (game.state !== GAME_STATE.PLAY) return;
+
+	if (!game.lastUpdateTime) game.lastUpdateTime = timestamp;
+	const elapsedTime = timestamp - game.lastUpdateTime;
+
+	if (elapsedTime <= game.speed) {
+		requestNextFrame();
+		return;
+	}
+
+	if (movable(tetromino, grid, DIRECTION.DOWN)) {
+		moveDown(tetromino, grid);
+	} else {
+		handleTetrominoLanding();
+	}
+
+	game.lastUpdateTime = timestamp;
+	requestNextFrame();
+};
+
+const endGame = () => {
+	if (!highScore || game.score > highScore) {
+		localStorage.setItem("highScore", game.score);
+	}
+
+	game.state = GAME_STATE.END;
+	let body = document.querySelector("body");
+	body.classList.add("end");
+	body.classList.remove("play");
+	let rs_level = document.querySelector("#result-level");
+	let rs_score = document.querySelector("#result-score");
+	rs_level.innerHTML = game.level;
+	rs_score.innerHTML = game.score;
 };
 
 const gameStart = () => {
@@ -404,6 +453,7 @@ const gameReset = () => {
 	game.speed = START_SPEED;
 	game.state = GAME_STATE.END;
 	game.level = 1;
+	updateLivesDisplay({ reset: true });
 	game.gameLoopRequestId = null;
 	game.timerRequestId = null; // Reset the timer interval
 	tetromino = null;

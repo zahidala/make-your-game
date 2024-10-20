@@ -171,6 +171,14 @@ html {
 	gap: 1rem;
 }
 
+.lives {
+	display: flex;
+	gap: 0.5rem;
+	align-self: center;
+	padding-block: 10px;
+	padding-bottom: 20px;
+}
+
 .board-container {
 	display: flex;
 	align-items: center;
