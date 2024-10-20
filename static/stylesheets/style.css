@@ -177,7 +177,7 @@ html {
 	align-self: center;
 	padding-block: 10px;
 	padding-bottom: 20px;
-} */
+	} */
 
 .lives {
 	align-self: center;
@@ -438,6 +438,41 @@ body.muted i.fa-volume-xmark {
 	mask-image: radial-gradient(circle, black 3px, transparent 3px);
 	mask-size: 8px 8px;
 	mask-repeat: repeat-x;
+}
+
+.next-queue,
+.hold-block {
+	width: 100%;
+	border: 4px dotted #3533cd;
+	border-radius: 10px;
+	margin: 10px 0;
+	/* background-color: rgba(26, 26, 26, 0.7); */
+}
+
+.next-queue {
+	height: 200px;
+}
+
+.hold-block {
+	height: 80px;
+}
+
+.next-piece,
+.hold-piece {
+	width: 50px;
+	height: 50px;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: repeat(4, 1fr);
+}
+
+.next-piece div,
+.hold-piece div {
+	width: 20px;
+	height: 20px;
+	box-sizing: border-box;
+	border: 2px solid rgb(54, 42, 137, 0.4);
+	border-radius: 4px;
 }
 
 .scores-wrapper {

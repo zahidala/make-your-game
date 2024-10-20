@@ -1,4 +1,7 @@
 let field = document.getElementsByClassName("block");
+let nextPieces = [];
+let holdPiece = null;
+let canHold = true;
 
 // INITIAL NEW GRID
 const newGrid = (width, height) => {
@@ -300,6 +303,104 @@ const checkGrid = grid => {
 	if (row_count > 0) updateGame(row_count);
 };
 
+const generateNextPieces = () => {
+	while (nextPieces.length < 3) {
+		nextPieces.push(newTetromino(BLOCKS, COLORS, START_X, START_Y));
+	}
+};
+
+const updateNextQueue = () => {
+    for (let i = 0; i < 3; i++) {
+        const nextPieceElement = document.querySelector(`#next-piece-${i+1}`);
+        nextPieceElement.innerHTML = "";
+        if (nextPieces[i]) {
+            const piece = nextPieces[i];
+            const maxSize = Math.max(piece.block.length, piece.block[0].length);
+            nextPieceElement.style.gridTemplateColumns = `repeat(${maxSize}, 1fr)`;
+            nextPieceElement.style.gridTemplateRows = `repeat(${maxSize}, 1fr)`;
+
+            for (let j = 0; j < maxSize; j++) {
+                for (let k = 0; k < maxSize; k++) {
+                    const block = document.createElement("div");
+                    if (piece.block[j] && piece.block[j][k] > 0) {
+                        block.style.backgroundColor = piece.color;
+                        block.classList.add("tetromino-block");
+                    }
+                    nextPieceElement.appendChild(block);
+                }
+            }
+        }
+    }
+};
+
+// const updateNextQueue = () => {
+// 	const nextPieceElement = document.querySelector(".next-piece");
+// 	nextPieceElement.innerHTML = "";
+// 	if (nextPieces[0]) {
+// 		const piece = nextPieces[0];
+// 		const maxSize = Math.max(piece.block.length, piece.block[0].length);
+// 		nextPieceElement.style.gridTemplateColumns = `repeat(${maxSize}, 1fr)`;
+// 		nextPieceElement.style.gridTemplateRows = `repeat(${maxSize}, 1fr)`;
+
+// 		for (let i = 0; i < maxSize; i++) {
+// 			for (let j = 0; j < maxSize; j++) {
+// 				const block = document.createElement("div");
+// 				if (piece.block[i] && piece.block[i][j] > 0) {
+// 					block.style.backgroundColor = piece.color;
+// 					block.classList.add("tetromino-block");
+// 				}
+// 				nextPieceElement.appendChild(block);
+// 			}
+// 		}
+// 	}
+// };
+
+const updateHoldQueue = () => {
+	const holdPieceElement = document.querySelector(".hold-piece");
+	holdPieceElement.innerHTML = "";
+	if (holdPiece) {
+		const maxSize = Math.max(holdPiece.block.length, holdPiece.block[0].length);
+		holdPieceElement.style.gridTemplateColumns = `repeat(${maxSize}, 1fr)`;
+		holdPieceElement.style.gridTemplateRows = `repeat(${maxSize}, 1fr)`;
+
+		for (let i = 0; i < maxSize; i++) {
+			for (let j = 0; j < maxSize; j++) {
+				const block = document.createElement("div");
+				if (holdPiece.block[i] && holdPiece.block[i][j] > 0) {
+					block.style.backgroundColor = holdPiece.color;
+					block.classList.add("tetromino-block");
+				}
+				holdPieceElement.appendChild(block);
+			}
+		}
+	}
+};
+
+const holdCurrentPiece = () => {
+	if (!canHold) return;
+
+	clearTetromino(tetromino, grid);
+	clearGhostTetromino(tetromino, grid);
+
+	if (holdPiece === null) {
+		holdPiece = tetromino;
+		tetromino = nextPieces.shift();
+		generateNextPieces();
+	} else {
+		const temp = holdPiece;
+		holdPiece = tetromino;
+		tetromino = temp;
+		tetromino.x = START_X;
+		tetromino.y = START_Y;
+	}
+
+	canHold = false;
+	updateHoldQueue();
+	updateNextQueue();
+	drawGhostTetromino(tetromino, grid);
+	drawTetromino(tetromino, grid);
+};
+
 const updateLivesDisplay = ({ reset = false } = {}) => {
 	const lives = document.querySelector(".lives");
 
@@ -312,10 +413,10 @@ const updateLivesDisplay = ({ reset = false } = {}) => {
 	} else {
 		// Update lives display
 		const fullHeart = lives.querySelector(".life:not(.empty)");
-        if (fullHeart) {
-            fullHeart.textContent = "🖤";
-            fullHeart.classList.add("empty");
-        }
+		if (fullHeart) {
+			fullHeart.textContent = "🖤";
+			fullHeart.classList.add("empty");
+		}
 	}
 };
 
@@ -361,10 +462,14 @@ const handleLifeLoss = () => {
 const handleTetrominoLanding = () => {
 	updateGrid(tetromino, grid);
 	checkGrid(grid);
-	tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
+	tetromino = nextPieces.shift();
+	generateNextPieces();
+	updateNextQueue();
+	canHold = true;
 
 	if (movable(tetromino, grid, DIRECTION.DOWN)) {
 		drawTetromino(tetromino, grid);
+		drawGhostTetromino(tetromino, grid);
 	} else {
 		handleLifeLoss();
 	}
@@ -408,14 +513,19 @@ const endGame = () => {
 
 const gameStart = () => {
 	game.state = GAME_STATE.PLAY;
-	game.startTime = new Date(); // Set the start time
+	game.startTime = new Date();
 	level_span.innerHTML = "1";
 	score_span.innerHTML = "0";
-	tetromino = newTetromino(BLOCKS, COLORS, START_X, START_Y);
+	generateNextPieces();
+	tetromino = nextPieces.shift();
+	generateNextPieces();
+	updateNextQueue();
+	updateHoldQueue();
 	drawTetromino(tetromino, grid);
-	game.lastUpdateTime = 0; // Reset the last update time
-	game.gameLoopRequestId = requestAnimationFrame(gameLoop); // Start the game loop
-	game.timerRequestId = requestAnimationFrame(updateTimer); // Start the timer
+	drawGhostTetromino(tetromino, grid);
+	game.lastUpdateTime = 0;
+	game.gameLoopRequestId = requestAnimationFrame(gameLoop);
+	game.timerRequestId = requestAnimationFrame(updateTimer);
 
 	document.body.classList.add("play");
 };
@@ -503,6 +613,9 @@ document.addEventListener("keydown", e => {
 				body.classList.add("play");
 				gameResume();
 			}
+			break;
+		case KEY.C:
+			holdCurrentPiece();
 			break;
 	}
 });

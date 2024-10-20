@@ -62,6 +62,7 @@ const KEY = {
 	RIGHT: 39,
 	SPACE: 32,
 	P: 80,
+	C: 67,
 };
 
 // board size
