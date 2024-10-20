@@ -167,6 +167,7 @@ html {
 .info-section {
 	padding: 10px;
 	display: flex;
+	align-items: center;
 	flex-direction: column;
 	gap: 1rem;
 }
@@ -180,7 +181,6 @@ html {
 	} */
 
 .lives {
-	align-self: center;
 	font-size: 24px;
 }
 
