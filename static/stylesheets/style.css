@@ -164,6 +164,7 @@ html {
 	/* box-shadow: -10px 10px 20px #dbdfe2, 10px -10px 20px #fdffff; */
 }
 
+/* RIGHT SIDE PANEL */
 .info-section {
 	padding: 10px;
 	display: flex;
@@ -192,6 +193,7 @@ html {
     opacity: 0.5;
 } */
 
+/* MAIN GAME GRID */
 .board-container {
 	display: flex;
 	align-items: center;
@@ -201,7 +203,6 @@ html {
 	border-right: 8px dotted #3533cd;
 }
 
-/* MAIN GAME GRID */
 .board-section {
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
@@ -450,7 +451,8 @@ body.muted i.fa-volume-xmark {
 }
 
 .next-queue {
-	height: 200px;
+	height: 250px;
+	gap: 30px;
 }
 
 .hold-block {
