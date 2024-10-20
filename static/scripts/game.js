@@ -307,12 +307,15 @@ const updateLivesDisplay = ({ reset = false } = {}) => {
 	if (reset) {
 		lives.innerHTML = "";
 		for (let i = 0; i < game.lives; i++) {
-			lives.innerHTML += "<i class='fa-solid fa-heart fa-xl'></i>";
+			lives.innerHTML += "<span class='life'>❤️</span>";
 		}
 	} else {
 		// Update lives display
-		const heart = lives.querySelector("i");
-		if (heart) heart.remove();
+		const fullHeart = lives.querySelector(".life:not(.empty)");
+        if (fullHeart) {
+            fullHeart.textContent = "🖤";
+            fullHeart.classList.add("empty");
+        }
 	}
 };
 

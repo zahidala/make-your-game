@@ -171,13 +171,26 @@ html {
 	gap: 1rem;
 }
 
-.lives {
+/* .lives {
 	display: flex;
 	gap: 0.5rem;
 	align-self: center;
 	padding-block: 10px;
 	padding-bottom: 20px;
+} */
+
+.lives {
+	align-self: center;
+	font-size: 24px;
 }
+
+/* .life {
+	margin-right: 5px;
+} */
+
+/* .life.empty {
+    opacity: 0.5;
+} */
 
 .board-container {
 	display: flex;
@@ -187,7 +200,6 @@ html {
 	border-left: 8px dotted #3533cd;
 	border-right: 8px dotted #3533cd;
 }
-
 
 /* MAIN GAME GRID */
 .board-section {
@@ -205,7 +217,12 @@ html {
 .block {
 	width: 20px;
 	height: 20px;
-	border: 0.1px solid rgb(54, 42, 137, 0.4);
+	border: 4px solid rgb(54, 42, 137, 0.4);
+	border-top-color: rgba(54, 42, 137, 0.1);
+	border-right-color: rgba(54, 42, 137, 0.5);
+	border-bottom-color: rgba(54, 42, 137, 0.5);
+	border-left-color: rgba(54, 42, 137, 0.2);
+	border-radius: 6px;
 }
 
 .setting-section {
@@ -221,19 +238,19 @@ html {
 
 /* VOLUME TOGGLE */
 i.fa-volume-high {
-    display: block;
+	display: block;
 }
 
 i.fa-volume-xmark {
-    display: none;
+	display: none;
 }
 
 body.muted i.fa-volume-high {
-    display: none;
+	display: none;
 }
 
 body.muted i.fa-volume-xmark {
-    display: block;
+	display: block;
 }
 
 .btn {
@@ -386,98 +403,88 @@ body.muted i.fa-volume-xmark {
 
 .game-button {
 	background: linear-gradient(to bottom, transparent 50%, #3533cd 90%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 5px;
-  color: #a6a6a6;
-  border: 2px solid #737373;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 30px;
+	height: 30px;
+	border-radius: 5px;
+	color: #a6a6a6;
+	border: 2px solid #737373;
+	cursor: pointer;
 }
 
-.game-info span:nth-child(1){
+.game-info span:nth-child(1) {
 	font-size: 1.2rem;
 }
 
 .game-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.1rem;
-  position: relative;
-  padding-bottom: 20px; 
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.1rem;
+	position: relative;
+	padding-bottom: 20px;
 }
 
 .game-info::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 5px; 
-  background: radial-gradient(circle at 50% 50%, #3533cd, transparent 100%, transparent 100%);
-  mask-image: radial-gradient(circle, black 3px, transparent 3px);
-  mask-size: 8px 8px;
-  mask-repeat: repeat-x;
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 5px;
+	background: radial-gradient(circle at 50% 50%, #3533cd, transparent 100%, transparent 100%);
+	mask-image: radial-gradient(circle, black 3px, transparent 3px);
+	mask-size: 8px 8px;
+	mask-repeat: repeat-x;
 }
 
 .scores-wrapper {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  position: relative; /* Required for positioning the pseudo-element */
-  padding-bottom: 20px; /* Space between text and border */
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	position: relative; /* Required for positioning the pseudo-element */
+	padding-bottom: 20px; /* Space between text and border */
 }
 
 .scores-wrapper::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 5px; /* Height of the border */
-  background: radial-gradient(circle at 50% 50%, #3533cd, transparent 100%, transparent 100%);
-  mask-image: radial-gradient(circle, black 3px, transparent 3px);
-  mask-size: 8px 8px;
-  mask-repeat: repeat-x;
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 5px; /* Height of the border */
+	background: radial-gradient(circle at 50% 50%, #3533cd, transparent 100%, transparent 100%);
+	mask-image: radial-gradient(circle, black 3px, transparent 3px);
+	mask-size: 8px 8px;
+	mask-repeat: repeat-x;
 }
 
 .scores-wrapper > div {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 	justify-content: space-between;
-  align-items: center;
-  justify-content: space-between;
-}
-
-
-.lives {
-	color: #F15D42;
+	align-items: center;
+	justify-content: space-between;
 }
 
 /*  ANIMATION  */
 @keyframes fallBackground {
-	from { background-position: 0 0; }
-	to { background-position: 0 100%; }
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: 0 100%;
+	}
 }
 
 @keyframes glow {
 	from {
-		text-shadow: 
-		#3533cd 10px 10px 0px, 
-		#3533cd 0 0 10px, 
-		white 0 0 20px, 
-		white 0 0 30px, 
-		white 0 0 40px;
+		text-shadow: #3533cd 10px 10px 0px, #3533cd 0 0 10px, white 0 0 20px, white 0 0 30px, white 0 0 40px;
 	}
 	to {
-		text-shadow: 
-		#3533cd 10px 10px 0px, 
-		#3533cd 0 0 20px, 
-		#3533cd 0 0 30px, 
-		#3533cd 0 0 40px, 
-		#3533cd 0 0 50px;
+		text-shadow: #3533cd 10px 10px 0px, #3533cd 0 0 20px, #3533cd 0 0 30px, #3533cd 0 0 40px, #3533cd 0 0 50px;
 	}
 }
 
