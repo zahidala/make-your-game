@@ -36,6 +36,7 @@ let game = {
 	level: 1,
 	lives: START_LIVES,
 	state: GAME_STATE.END,
+	finalTime: null,
 	timerRequestId: null,
 	gameLoopRequestId: null,
 	lastUpdateTime: 0,
@@ -310,27 +311,27 @@ const generateNextPieces = () => {
 };
 
 const updateNextQueue = () => {
-    for (let i = 0; i < 3; i++) {
-        const nextPieceElement = document.querySelector(`#next-piece-${i+1}`);
-        nextPieceElement.innerHTML = "";
-        if (nextPieces[i]) {
-            const piece = nextPieces[i];
-            const maxSize = Math.max(piece.block.length, piece.block[0].length);
-            nextPieceElement.style.gridTemplateColumns = `repeat(${maxSize}, 1fr)`;
-            nextPieceElement.style.gridTemplateRows = `repeat(${maxSize}, 1fr)`;
+	for (let i = 0; i < 3; i++) {
+		const nextPieceElement = document.querySelector(`#next-piece-${i + 1}`);
+		nextPieceElement.innerHTML = "";
+		if (nextPieces[i]) {
+			const piece = nextPieces[i];
+			const maxSize = Math.max(piece.block.length, piece.block[0].length);
+			nextPieceElement.style.gridTemplateColumns = `repeat(${maxSize}, 1fr)`;
+			nextPieceElement.style.gridTemplateRows = `repeat(${maxSize}, 1fr)`;
 
-            for (let j = 0; j < maxSize; j++) {
-                for (let k = 0; k < maxSize; k++) {
-                    const block = document.createElement("div");
-                    if (piece.block[j] && piece.block[j][k] > 0) {
-                        block.style.backgroundColor = piece.color;
-                        block.classList.add("tetromino-block");
-                    }
-                    nextPieceElement.appendChild(block);
-                }
-            }
-        }
-    }
+			for (let j = 0; j < maxSize; j++) {
+				for (let k = 0; k < maxSize; k++) {
+					const block = document.createElement("div");
+					if (piece.block[j] && piece.block[j][k] > 0) {
+						block.style.backgroundColor = piece.color;
+						block.classList.add("tetromino-block");
+					}
+					nextPieceElement.appendChild(block);
+				}
+			}
+		}
+	}
 };
 
 // const updateNextQueue = () => {
@@ -502,13 +503,19 @@ const endGame = () => {
 	}
 
 	game.state = GAME_STATE.END;
+	game.finalTime = document.querySelector("#time").innerHTML;
+
 	let body = document.querySelector("body");
-	body.classList.add("end");
 	body.classList.remove("play");
-	let rs_level = document.querySelector("#result-level");
-	let rs_score = document.querySelector("#result-score");
-	rs_level.innerHTML = game.level;
-	rs_score.innerHTML = game.score;
+
+	document.querySelector(".main-menu-container").setAttribute("style", "display: none");
+	document.querySelector(".background-image").setAttribute("style", "filter: contrast(130%) sepia(100%) blur(3px)");
+	document.querySelector(".main-menu-container.game-over").setAttribute("style", "display: flex");
+
+	document.getElementById("result-time").innerHTML = game.finalTime;
+	document.getElementById("result-score").innerHTML = game.score;
+	document.getElementById("result-high-score").innerHTML = game.high;
+	document.getElementById("result-level").innerHTML = game.level;
 };
 
 const gameStart = () => {
@@ -528,6 +535,7 @@ const gameStart = () => {
 	game.timerRequestId = requestAnimationFrame(updateTimer);
 
 	document.body.classList.add("play");
+	document.querySelector(".main-menu-container").setAttribute("style", "display: none");
 };
 
 const updateGame = row_count => {
@@ -566,6 +574,8 @@ const gameReset = () => {
 	game.speed = START_SPEED;
 	game.state = GAME_STATE.END;
 	game.level = 1;
+	game.lives = START_LIVES;
+	game.finalTime = null;
 	updateLivesDisplay({ reset: true });
 	game.gameLoopRequestId = null;
 	game.timerRequestId = null; // Reset the timer interval
@@ -657,6 +667,24 @@ const buttons = {
 		body.classList.remove("pause");
 		body.classList.remove("end");
 		gameStart();
+	},
+	"btn-play-again-yes": () => {
+		const body = document.querySelector("body");
+		gameReset();
+		document.querySelector(".main-menu-container").setAttribute("style", "display: none");
+		document.querySelector(".background-image").setAttribute("style", "filter: contrast(130%) sepia(70%) blur(3px)");
+		document.querySelector(".main-menu-container.game-over").setAttribute("style", "display: none");
+		body.classList.add("play");
+		body.classList.remove("pause");
+		body.classList.remove("end");
+		gameStart();
+	},
+	"btn-play-again-no": () => {
+		// const body = document.querySelector("body");
+		gameReset();
+		document.querySelector(".main-menu-container").setAttribute("style", "display: flex");
+		document.querySelector(".main-menu-container.game-over").setAttribute("style", "display: none");
+		document.querySelector(".background-image").setAttribute("style", "filter: contrast(130%) sepia(70%) blur(3px)");
 	},
 	"btn-help": () => {
 		const how_to = document.querySelector(".how-to");

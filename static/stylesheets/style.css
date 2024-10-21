@@ -556,6 +556,38 @@ body.muted i.fa-volume-xmark {
 	width: 100%;
 }
 
+.main-menu-container.game-over {
+	display: none;
+}
+
+.final-stats {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+	row-gap: 1rem;
+	column-gap: 1rem;
+	padding: 1rem;
+	color: white;
+	border-radius: 10px;
+	margin-bottom: 50px;
+	background: linear-gradient(180deg, rgba(53, 51, 205, 0.4), rgba(26, 26, 26, 1), rgba(53, 51, 205, 0.4));
+}
+
+.final-stat-info-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.main-menu-options-wrapper {
+	display: flex;
+	gap: 3rem;
+}
+
+.main-menu-container.game-over > .main-menu-wrapper > .sub-heading {
+	font-size: 1.5rem;
+}
+
 /*  ANIMATION  */
 @keyframes fallBackground {
 	from {
