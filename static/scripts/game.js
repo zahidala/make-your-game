@@ -334,28 +334,6 @@ const updateNextQueue = () => {
 	}
 };
 
-// const updateNextQueue = () => {
-// 	const nextPieceElement = document.querySelector(".next-piece");
-// 	nextPieceElement.innerHTML = "";
-// 	if (nextPieces[0]) {
-// 		const piece = nextPieces[0];
-// 		const maxSize = Math.max(piece.block.length, piece.block[0].length);
-// 		nextPieceElement.style.gridTemplateColumns = `repeat(${maxSize}, 1fr)`;
-// 		nextPieceElement.style.gridTemplateRows = `repeat(${maxSize}, 1fr)`;
-
-// 		for (let i = 0; i < maxSize; i++) {
-// 			for (let j = 0; j < maxSize; j++) {
-// 				const block = document.createElement("div");
-// 				if (piece.block[i] && piece.block[i][j] > 0) {
-// 					block.style.backgroundColor = piece.color;
-// 					block.classList.add("tetromino-block");
-// 				}
-// 				nextPieceElement.appendChild(block);
-// 			}
-// 		}
-// 	}
-// };
-
 const updateHoldQueue = () => {
 	const holdPieceElement = document.querySelector(".hold-piece");
 	holdPieceElement.innerHTML = "";
