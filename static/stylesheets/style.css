@@ -70,14 +70,6 @@ html {
 	color: white;
 }
 
-/* HIGH SCORE STYLES IN MAIN MENU */
-.result-container {
-	display: none;
-	gap: 0.5rem;
-	text-align: center;
-	margin-bottom: 25px;
-}
-
 /* MENU WRAPPER */
 .main-menu-wrapper {
 	display: flex;
@@ -275,38 +267,6 @@ body.muted i.fa-volume-xmark {
 	box-shadow: inset -5px 5px 10px #c4c7ca, inset 5px -5px 10px #ffffff;
 }
 
-.control-section {
-	display: none;
-}
-
-.col {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 10px;
-}
-
-.col:nth-child(1) {
-	width: 60%;
-}
-
-.col:nth-child(2) {
-	width: 40%;
-}
-
-/* CONTROL BUTTONS ON PHONE */
-.arrow-control {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-}
-
-/* HARD DROP BUTTON ON PHONE */
-.btn-large {
-	width: 80px !important;
-	height: 80px !important;
-	font-size: 30px;
-}
-
 .how-to {
 	position: absolute;
 	top: 50%;
@@ -341,14 +301,12 @@ body.muted i.fa-volume-xmark {
 
 /*  GAME STATE  */
 .board-section,
-.info-section,
-.control-section {
+.info-section {
 	transform: scale(0);
 }
 
 .play .board-section,
-.play .info-section,
-.play .control-section {
+.play .info-section {
 	transform: scale(1);
 }
 
@@ -370,7 +328,7 @@ body.muted i.fa-volume-xmark {
 	display: block;
 }
 
-.end .result {
+.end {
 	display: block;
 }
 
@@ -653,10 +611,6 @@ body.muted i.fa-volume-xmark {
 		box-shadow: unset;
 		border-radius: unset;
 		padding-bottom: 10px;
-	}
-
-	.control-section {
-		display: flex;
 	}
 
 	.setting-section {
