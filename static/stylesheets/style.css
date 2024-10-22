@@ -534,10 +534,18 @@ body.muted i.fa-volume-xmark {
 	display: none;
 }
 
+.heading.game-over{
+	animation: glowGameOver 1.5s ease-in-out infinite alternate;
+}
+
+.heading.game-over::after {
+	background-image: linear-gradient(to bottom, transparent 60%, #737373 100%);
+}
+
 .final-stats {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
 	row-gap: 1rem;
 	column-gap: 1rem;
 	padding: 1rem;
@@ -578,6 +586,15 @@ body.muted i.fa-volume-xmark {
 	}
 	to {
 		text-shadow: #3533cd 10px 10px 0px, #3533cd 0 0 20px, #3533cd 0 0 30px, #3533cd 0 0 40px, #3533cd 0 0 50px;
+	}
+}
+
+@keyframes glowGameOver {
+	from {
+		text-shadow: #1a1a1a 10px 10px 0px, #1a1a1a 0 0 10px, white 0 0 20px, white 0 0 30px, white 0 0 40px;
+	}
+	to {
+		text-shadow: #1a1a1a 10px 10px 0px, #1a1a1a 0 0 20px, #1a1a1a 0 0 30px, #1a1a1a 0 0 40px, #1a1a1a 0 0 50px;
 	}
 }
 
