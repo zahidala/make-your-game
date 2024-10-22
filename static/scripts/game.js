@@ -36,6 +36,8 @@ let game = {
 	level: 1,
 	lives: START_LIVES,
 	state: GAME_STATE.END,
+	startTime: null,
+	elapsedTime: null,
 	finalTime: null,
 	timerRequestId: null,
 	gameLoopRequestId: null,
@@ -403,6 +405,7 @@ const updateTimer = () => {
 	if (game.state === GAME_STATE.PLAY) {
 		const now = new Date();
 		const elapsedTime = now - game.startTime;
+		game.elapsedTime = elapsedTime;
 		const hours = Math.floor(elapsedTime / 3600000);
 		const minutes = Math.floor((elapsedTime % 3600000) / 60000);
 		const seconds = Math.floor((elapsedTime % 60000) / 1000);
@@ -543,9 +546,16 @@ const gamePause = () => {
 
 	resumeButton.addEventListener("click", gameResume);
 
-	// const quitButton = dialog.querySelector("#quitButton");
+	const quitButton = dialog.querySelector("#quitButton");
 
-	// quitButton.addEventListener("click", () => {});
+	quitButton.addEventListener("click", () => {
+		gameReset();
+		document.querySelector(".main-menu-container").setAttribute("style", "display: flex");
+		document.querySelector(".main-menu-container.game-over").setAttribute("style", "display: none");
+		document.querySelector(".background-image").setAttribute("style", "filter: contrast(130%) sepia(70%) blur(3px)");
+		dialog.close();
+		document.body.classList.remove("pause");
+	});
 };
 
 const gameResume = () => {
@@ -570,6 +580,8 @@ const gameReset = () => {
 	game.level = 1;
 	game.lives = START_LIVES;
 	game.finalTime = null;
+	game.startTime = null;
+	game.elapsedTime = null;
 	updateLivesDisplay({ reset: true });
 	game.gameLoopRequestId = null;
 	game.timerRequestId = null; // Reset the timer interval
@@ -649,8 +661,6 @@ const buttons = {
 	"btn-pause": () => {
 		const body = document.querySelector("body");
 		gamePause();
-		const btn_play = document.querySelector("#btn-play");
-		btn_play.innerHTML = "resume";
 		body.classList.remove("play");
 		body.classList.add("pause");
 	},
