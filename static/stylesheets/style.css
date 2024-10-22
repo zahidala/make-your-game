@@ -267,6 +267,85 @@ body.muted i.fa-volume-xmark {
 	box-shadow: inset -5px 5px 10px #c4c7ca, inset 5px -5px 10px #ffffff;
 }
 
+.pause-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    color: #fff;
+}
+
+.pause-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.pause-content {
+    background-color: #1a1a1a;
+    border: 2px solid #3533cd;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.pause-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.pause-button {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-family: 'Silkscreen', cursive;
+    font-size: 16px;
+    margin: 10px;
+    padding: 5px 10px;
+    transition: color 0.3s ease;
+}
+
+.pause-button:hover {
+    color: #febd59;
+}
+
+.pause-button::before {
+    content: ">> ";
+    color: transparent;
+    transition: color 0.3s;
+}
+
+.pause-button:hover::before {
+    color: #febd59;
+}
+
+.icon-button {
+    background-color: #3533cd;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.icon-button:hover {
+    background-color: #febd59;
+}
+
+.icon-button i {
+    color: #fff;
+    font-size: 20px;
+}
+
 .how-to {
 	position: absolute;
 	top: 50%;
@@ -399,12 +478,15 @@ body.muted i.fa-volume-xmark {
 	mask-repeat: repeat-x;
 }
 
-.game-info.next-queue, .game-info.hold-block {
+.game-info.next-queue,
+.game-info.hold-block {
 	gap: 0.5rem;
 }
 
-.game-info.next-queue::after, .game-info.level::after, .game-info.hold-block::after {
-	background:none;
+.game-info.next-queue::after,
+.game-info.level::after,
+.game-info.hold-block::after {
+	background: none;
 	mask-image: none;
 }
 
@@ -415,12 +497,10 @@ body.muted i.fa-volume-xmark {
 	border-radius: 10px;
 	margin: 10px 0;
 	/* background-color: rgba(26, 26, 26, 0.7); */
-	
 }
 
 .next-queue {
 	height: 200px;
-	/* gap: 30px; */
 }
 
 .hold-block {
@@ -445,10 +525,14 @@ body.muted i.fa-volume-xmark {
 	border-radius: 4px;
 }
 
-#next-piece-1, #next-piece-2, #next-piece-3, #hold-piece {
+#next-piece-1,
+#next-piece-2,
+#next-piece-3,
+#hold-piece {
 	width: 50px;
-    height: 50px;
-    display: grid;
+	height: 50px;
+
+	display: grid;
 }
 
 .scores-wrapper {
@@ -481,32 +565,32 @@ body.muted i.fa-volume-xmark {
 }
 
 .tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
+	position: relative;
+	display: inline-block;
+	border-bottom: 1px dotted black;
 }
 
 .tooltip .tooltip-text {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -60px;
+	visibility: hidden;
+	width: 120px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	bottom: 125%;
+	left: 50%;
+	margin-left: -60px;
 	font-size: 0.8rem;
-  opacity: 0;
-  transition: opacity 0.3s;
+	opacity: 0;
+	transition: opacity 0.3s;
 }
 
 .tooltip:hover .tooltip-text {
-  visibility: visible;
-  opacity: 1;
+	visibility: visible;
+	opacity: 1;
 }
 
 .controls {
@@ -534,7 +618,7 @@ body.muted i.fa-volume-xmark {
 	display: none;
 }
 
-.heading.game-over{
+.heading.game-over {
 	animation: glowGameOver 1.5s ease-in-out infinite alternate;
 }
 

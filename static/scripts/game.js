@@ -535,6 +535,17 @@ const gamePause = () => {
 	game.state = GAME_STATE.PAUSE;
 	cancelAnimationFrame(game.timerRequestId); // Stop the timer
 	cancelAnimationFrame(game.gameLoopRequestId); // Stop the game loop
+
+	const dialog = document.querySelector("#pauseDialog");
+	dialog.showModal();
+
+	const resumeButton = dialog.querySelector("#resumeButton");
+
+	resumeButton.addEventListener("click", gameResume);
+
+	// const quitButton = dialog.querySelector("#quitButton");
+
+	// quitButton.addEventListener("click", () => {});
 };
 
 const gameResume = () => {
@@ -542,6 +553,11 @@ const gameResume = () => {
 	game.startTime = new Date(new Date() - game.elapsedTime); // Adjust start time
 	game.timerRequestId = requestAnimationFrame(updateTimer); // Resume the timer
 	game.gameLoopRequestId = requestAnimationFrame(gameLoop); // Resume the game loop
+	const body = document.querySelector("body");
+	body.classList.add("play");
+	body.classList.remove("pause");
+	const dialog = document.querySelector("#pauseDialog");
+	dialog.close();
 };
 
 const gameReset = () => {
