@@ -232,10 +232,12 @@ html {
 /* VOLUME TOGGLE */
 i.fa-volume-high {
 	display: block;
+	font-size: 15px;
 }
 
 i.fa-volume-xmark {
 	display: none;
+	font-size: 15px;
 }
 
 body.muted i.fa-volume-high {
@@ -267,83 +269,102 @@ body.muted i.fa-volume-xmark {
 	box-shadow: inset -5px 5px 10px #c4c7ca, inset 5px -5px 10px #ffffff;
 }
 
+/* PAUSE DIALOG */
 .pause-dialog {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    border: none;
-    border-radius: 10px;
-    padding: 20px;
-    color: #fff;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 30%, rgba(53, 51, 205, 0.5) 100%);
+	border: none;
+	border-radius: 30px;
+	padding: 20px;
+	color: #fff;
 }
 
 .pause-dialog::backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
+	background-color: rgba(0, 0, 0, 0.5);
 }
 
 .pause-content {
-    background-color: #1a1a1a;
-    border: 2px solid #3533cd;
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border-radius: 30px;
+	padding: 20px;
+	gap: 1rem;
+	text-align: center;
 }
 
 .pause-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #fff;
+	font-size: 1.8rem;
+	color: #fff;
+	margin: 0;
 }
 
 .pause-button {
-    background-color: transparent;
+	background-color: transparent;
+	border: none;
+	color: #fff;
+	font-family: "Silkscreen", cursive;
+	font-size: 1rem;
+	cursor: pointer;
+	position: relative;
+}
+
+.pause-button::before {
+	content: ">> ";
+	color: transparent;
+	position: absolute;
+	left: -25px;
+	transition: color 0.3s;
+}
+
+.pause-button:hover {
+	color: #febd59;
+	transition: color 0.3s;
+	transform: scale(1.1);
+}
+
+.pause-button:hover::before {
+	color: #febd59;
+}
+
+.game-button-wrapper.pause > .game-button {
+	width: 40px;
+	height: 40px;
+}
+
+.game-button-wrapper.pause > .game-button > i {
+	font-size: 1.2rem !important;
+}
+
+/* .pause-button {
     border: none;
     color: #fff;
     cursor: pointer;
     font-family: 'Silkscreen', cursive;
-    font-size: 16px;
-    margin: 10px;
+    font-size: 1rem;
     padding: 5px 10px;
     transition: color 0.3s ease;
+	position: relative;
 }
 
 .pause-button:hover {
     color: #febd59;
-}
+} */
 
-.pause-button::before {
+/* .pause-button::before {
     content: ">> ";
     color: transparent;
     transition: color 0.3s;
+	position: absolute;
 }
 
 .pause-button:hover::before {
     color: #febd59;
-}
+} */
 
-.icon-button {
-    background-color: #3533cd;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.icon-button:hover {
-    background-color: #febd59;
-}
-
-.icon-button i {
-    color: #fff;
-    font-size: 20px;
+.game-button-wrapper.pause {
+	flex-direction: row;
+	gap: 3rem;
 }
 
 .how-to {

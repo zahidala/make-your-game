@@ -658,6 +658,15 @@ const buttons = {
 			playMusic();
 		}
 	},
+	"btn-audio": () => {
+		const body = document.querySelector("body");
+		body.classList.toggle("muted");
+		if (body.classList.contains("muted")) {
+			pauseMusic();
+		} else {
+			playMusic();
+		}
+	},
 	"btn-pause": () => {
 		const body = document.querySelector("body");
 		gamePause();
@@ -691,6 +700,10 @@ const buttons = {
 		document.querySelector(".background-image").setAttribute("style", "filter: contrast(130%) sepia(70%) blur(3px)");
 	},
 	"btn-help": () => {
+		const how_to = document.querySelector(".how-to");
+		how_to.classList.toggle("active");
+	},
+	"btn-info": () => {
 		const how_to = document.querySelector(".how-to");
 		how_to.classList.toggle("active");
 	},
