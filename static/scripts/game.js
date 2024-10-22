@@ -707,6 +707,7 @@ const buttons = {
 		const how_to = document.querySelector(".how-to");
 		how_to.classList.toggle("active");
 	},
+	"btn-space": () => hardDrop(tetromino, grid),
 };
 
 Object.entries(buttons).forEach(([id, action]) => {

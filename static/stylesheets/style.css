@@ -675,6 +675,11 @@ body.muted i.fa-volume-xmark {
 	font-size: 1.5rem;
 }
 
+.game-button.space {
+	width: 100px;
+	margin-top: 10px;
+}
+
 /*  ANIMATION  */
 @keyframes fallBackground {
 	from {
