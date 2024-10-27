@@ -586,6 +586,7 @@ const gameReset = () => {
 	game.gameLoopRequestId = null;
 	game.timerRequestId = null; // Reset the timer interval
 	tetromino = null;
+	holdPiece = null;
 	document.querySelector("#time").innerHTML = "00:00:00"; // Reset timer display
 };
 
