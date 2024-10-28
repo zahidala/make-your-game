@@ -542,6 +542,11 @@ const gamePause = () => {
 	const dialog = document.querySelector("#pauseDialog");
 	dialog.showModal();
 
+	dialog.animate([{ opacity: 0 }, { opacity: 1 }], {
+		duration: 300,
+		easing: "ease-in-out",
+	});
+
 	const resumeButton = dialog.querySelector("#resumeButton");
 
 	resumeButton.addEventListener("click", gameResume);
