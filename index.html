@@ -33,7 +33,7 @@
 			<div class="main-menu-wrapper">
 				<span class="sub-heading">START GAME!</span>
 				<span class="main-menu-options" id="btn-play">PLAY GAME</span>
-				<span class="main-menu-options" id="btn-continue">CONTINUE</span>
+				<span class="main-menu-options" id="btn-help">HOW TO PLAY</span>
 			</div>
 		</div>
 
@@ -181,8 +181,55 @@
 			</div>
 		</dialog>
 
+		<dialog class="how-to-dialog" id="howToDialog">
+			<div class="how-to-content">
+				<div class="how-to-header">
+					<h2 class="how-to-title">HOW TO PLAY</h2>
+					<button class="game-button" onclick="document.getElementById('howToDialog').close()">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+				</div>
+
+				<table>
+					<tr>
+						<td>
+							<button class="game-button" style="cursor: default">
+								<i class="fa-solid fa-chevron-up"></i>
+							</button>
+						</td>
+						<td>Rotate</td>
+					</tr>
+
+					<tr>
+						<td>
+							<button class="game-button" style="cursor: default">
+								<i class="fa-solid fa-chevron-down"></i>
+							</button>
+						</td>
+						<td>Soft Drop</td>
+					</tr>
+
+					<tr>
+						<td>
+							<button class="game-button" style="cursor: default">
+								<i class="fa-solid fa-chevron-right"></i>
+							</button>
+						</td>
+						<td>Move Right</td>
+					</tr>
+
+					<tr>
+						<td>
+							<button class="game-button space" style="cursor: default"></button>
+						</td>
+						<td>Hard Drop</td>
+					</tr>
+				</table>
+			</div>
+		</dialog>
+
 		<!-- HELP SECTION -->
-		<div class="how-to">
+		<!-- <div class="how-to">
 			<h3>KEYBOARD CONTROL</h3>
 			<table>
 				<tr>
@@ -230,7 +277,7 @@
 					<td>Pause/Resume game</td>
 				</tr>
 			</table>
-		</div>
+		</div> -->
 
 		<!-- GAME OVER SECTION -->
 		<div class="main-menu-container game-over">

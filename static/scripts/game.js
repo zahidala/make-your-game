@@ -713,12 +713,12 @@ const buttons = {
 		document.querySelector(".background-image").setAttribute("style", "filter: contrast(130%) sepia(70%) blur(3px)");
 	},
 	"btn-help": () => {
-		const how_to = document.querySelector(".how-to");
-		how_to.classList.toggle("active");
+		const howToDialog = document.querySelector(".how-to-dialog");
+		howToDialog.showModal();
 	},
 	"btn-info": () => {
-		const how_to = document.querySelector(".how-to");
-		how_to.classList.toggle("active");
+		const howToDialog = document.querySelector(".how-to-dialog");
+		howToDialog.showModal();
 	},
 };
 

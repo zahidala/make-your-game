@@ -269,8 +269,8 @@ body.muted i.fa-volume-xmark {
 	box-shadow: inset -5px 5px 10px #c4c7ca, inset 5px -5px 10px #ffffff;
 }
 
-/* PAUSE DIALOG */
-.pause-dialog {
+/* PAUSE DIALOG, HOW-TO DIALOG */
+.pause-dialog, .how-to-dialog {
 	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 30%, rgba(53, 51, 205, 0.5) 100%);
 	border: none;
 	border-radius: 30px;
@@ -278,8 +278,31 @@ body.muted i.fa-volume-xmark {
 	color: #fff;
 }
 
-.pause-dialog::backdrop {
+.pause-dialog::backdrop, .how-to-dialog::backdrop {
 	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.how-to-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 1rem;
+}
+
+.how-to-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 3rem;
+}
+
+.how-to-content > table > tbody > tr > td > .game-button.space {
+	margin-top: inherit;
+}
+
+.how-to-content > table {
+	margin: 0 auto;
+	border-spacing: 1rem 1rem;
 }
 
 .pause-content {
@@ -367,7 +390,7 @@ body.muted i.fa-volume-xmark {
 	gap: 3rem;
 }
 
-.how-to {
+/* .how-to {
 	position: absolute;
 	top: 50%;
 	right: 0;
@@ -383,15 +406,15 @@ body.muted i.fa-volume-xmark {
 
 .how-to.active {
 	transform: translate(0, -50%);
-}
+} */
 
-.how-to h3 {
+/* .how-to h3 {
 	margin-bottom: 40px;
 }
 
 .how-to td {
 	padding: 20px;
-}
+} */
 
 .keycap {
 	width: calc(55px * 2);
@@ -765,8 +788,8 @@ body.muted i.fa-volume-xmark {
 		margin-bottom: 15px;
 	}
 
-	.how-to,
+	/* .how-to,
 	#btn-help {
 		display: none;
-	}
+	} */
 }
