@@ -715,10 +715,18 @@ const buttons = {
 	"btn-help": () => {
 		const howToDialog = document.querySelector(".how-to-dialog");
 		howToDialog.showModal();
+		howToDialog.animate([{ opacity: 0 }, { opacity: 1 }], {
+			duration: 300,
+			easing: "ease-in-out",
+		});
 	},
 	"btn-info": () => {
 		const howToDialog = document.querySelector(".how-to-dialog");
 		howToDialog.showModal();
+		howToDialog.animate([{ opacity: 0 }, { opacity: 1 }], {
+			duration: 300,
+			easing: "ease-in-out",
+		});
 	},
 };
 
