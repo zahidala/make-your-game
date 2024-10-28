@@ -28,6 +28,7 @@ const newGrid = (width, height) => {
 };
 
 const audio = document.querySelector("audio");
+audio.loop = true;
 
 const highScore = parseInt(localStorage.getItem("highScore"));
 
