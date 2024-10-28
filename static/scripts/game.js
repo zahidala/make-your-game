@@ -643,6 +643,7 @@ const buttons = {
 	"btn-down": () => moveDown(tetromino, grid),
 	"btn-left": () => moveLeft(tetromino, grid),
 	"btn-right": () => moveRight(tetromino, grid),
+	"btn-space": () => hardDrop(tetromino, grid),
 	"btn-play": () => {
 		const body = document.querySelector("body");
 		body.classList.add("play");
@@ -650,6 +651,23 @@ const buttons = {
 		gameStart();
 	},
 	"btn-continue": () => continueGame(),
+	"btn-pause": () => {
+		const body = document.querySelector("body");
+		gamePause();
+		body.classList.remove("play");
+		body.classList.add("pause");
+	},
+	"btn-reset": () => {
+		const body = document.querySelector("body");
+		gameReset();
+		document.querySelector(".main-menu-container").setAttribute("style", "display: none");
+		document.querySelector(".background-image").setAttribute("style", "filter: contrast(130%) sepia(70%) blur(3px)");
+		document.querySelector(".main-menu-container.game-over").setAttribute("style", "display: none");
+		body.classList.add("play");
+		body.classList.remove("pause");
+		body.classList.remove("end");
+		gameStart();
+	},
 	"btn-volume": () => {
 		const body = document.querySelector("body");
 		body.classList.toggle("muted");
@@ -667,12 +685,6 @@ const buttons = {
 		} else {
 			playMusic();
 		}
-	},
-	"btn-pause": () => {
-		const body = document.querySelector("body");
-		gamePause();
-		body.classList.remove("play");
-		body.classList.add("pause");
 	},
 	"btn-new-game": () => {
 		const body = document.querySelector("body");
@@ -708,7 +720,6 @@ const buttons = {
 		const how_to = document.querySelector(".how-to");
 		how_to.classList.toggle("active");
 	},
-	"btn-space": () => hardDrop(tetromino, grid),
 };
 
 Object.entries(buttons).forEach(([id, action]) => {

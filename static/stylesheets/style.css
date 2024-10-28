@@ -50,7 +50,7 @@ html {
 	font-style: italic;
 	text-shadow: #3533cd 10px 10px 0px, #3533cd 0 0 10px, white 0 0 20px, white 0 0 30px, white 0 0 40px;
 	color: white;
-	animation: glow 1.5s ease-in-out infinite alternate;
+	/* animation: glow 1.5s ease-in-out infinite alternate; */
 }
 
 /* TITLE BORDER STYLES */
@@ -637,10 +637,16 @@ body.muted i.fa-volume-xmark {
 
 .main-menu-container.game-over {
 	display: none;
+	position: relative;
+}
+
+.main-menu-wrapper.game-over::after {
+	background: linear-gradient(to bottom, transparent 60%, #737373 100%);
 }
 
 .heading.game-over {
-	animation: glowGameOver 1.5s ease-in-out infinite alternate;
+	text-shadow: #1a1a1a 10px 10px 0px, #1a1a1a 0 0 10px, white 0 0 20px, white 0 0 30px, white 0 0 40px;
+	/* animation: glowGameOver 1.5s ease-in-out infinite alternate; */
 }
 
 .heading.game-over::after {
@@ -657,7 +663,7 @@ body.muted i.fa-volume-xmark {
 	color: white;
 	border-radius: 10px;
 	margin-bottom: 50px;
-	background: linear-gradient(180deg, rgba(53, 51, 205, 0.4), rgba(26, 26, 26, 1), rgba(53, 51, 205, 0.4));
+	background: linear-gradient(180deg, rgba(115, 115, 115, 0.5), rgba(0, 0, 0, 1), rgba(115, 115, 115, 0.5));
 }
 
 .final-stat-info-wrapper {
