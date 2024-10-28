@@ -27,6 +27,8 @@ const newGrid = (width, height) => {
 	};
 };
 
+const audio = document.querySelector("audio");
+
 const highScore = parseInt(localStorage.getItem("highScore"));
 
 let game = {
@@ -517,6 +519,7 @@ const gameStart = () => {
 
 	document.body.classList.add("play");
 	document.querySelector(".main-menu-container").setAttribute("style", "display: none");
+	playMusic();
 };
 
 const updateGame = row_count => {
@@ -600,6 +603,14 @@ const continueGame = () => {
 		gameResume();
 	}
 	document.body.classList.add("play");
+};
+
+const playMusic = () => {
+	audio.play();
+};
+
+const pauseMusic = () => {
+	audio.pause();
 };
 
 // add keyboard event
