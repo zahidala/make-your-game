@@ -607,6 +607,7 @@ const continueGame = () => {
 };
 
 const playMusic = () => {
+	audio.currentTime = 0.5;
 	audio.play();
 };
 
