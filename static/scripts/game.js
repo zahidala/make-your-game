@@ -483,6 +483,8 @@ const gameLoop = timestamp => {
 };
 
 const endGame = () => {
+	pauseMusic();
+
 	if (!highScore || game.score > highScore) {
 		localStorage.setItem("highScore", game.score);
 	}
@@ -521,6 +523,7 @@ const gameStart = () => {
 
 	document.body.classList.add("play");
 	document.querySelector(".main-menu-container").setAttribute("style", "display: none");
+	audio.currentTime = 0;
 	playMusic();
 };
 
@@ -581,6 +584,7 @@ const gameResume = () => {
 };
 
 const gameReset = () => {
+	pauseMusic();
 	cancelAnimationFrame(game.gameLoopRequestId);
 	cancelAnimationFrame(game.timerRequestId); // Clear the timer interval
 	resetGrid(grid);
@@ -598,6 +602,7 @@ const gameReset = () => {
 	tetromino = null;
 	holdPiece = null;
 	document.querySelector("#time").innerHTML = "00:00:00"; // Reset timer display
+	audio.currentTime = 0;
 };
 
 const continueGame = () => {
