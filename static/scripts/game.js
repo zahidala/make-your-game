@@ -755,6 +755,7 @@ const buttons = {
 			easing: "ease-in-out",
 		});
 	},
+	"btn-hold": () => holdCurrentPiece(),
 };
 
 Object.entries(buttons).forEach(([id, action]) => {
