@@ -393,7 +393,7 @@ const updateLivesDisplay = ({ reset = false } = {}) => {
 	if (reset) {
 		lives.innerHTML = "";
 		for (let i = 0; i < game.lives; i++) {
-			lives.innerHTML += "<span class='life'❤️</span>";
+			lives.innerHTML += "<span class='life'>❤️</span>";
 		}
 	} else {
 		// Update lives display
