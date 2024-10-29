@@ -28,6 +28,7 @@ const newGrid = (width, height) => {
 };
 
 const audio = document.querySelector("audio");
+audio.currentTime = 0.5;
 audio.loop = true;
 
 const highScore = parseInt(localStorage.getItem("highScore"));
@@ -392,7 +393,7 @@ const updateLivesDisplay = ({ reset = false } = {}) => {
 	if (reset) {
 		lives.innerHTML = "";
 		for (let i = 0; i < game.lives; i++) {
-			lives.innerHTML += "<span class='life'>❤️</span>";
+			lives.innerHTML += "<span class='life'❤️</span>";
 		}
 	} else {
 		// Update lives display
@@ -607,7 +608,6 @@ const continueGame = () => {
 };
 
 const playMusic = () => {
-	audio.currentTime = 0.5;
 	audio.play();
 };
 
@@ -652,6 +652,15 @@ document.addEventListener("keydown", e => {
 		case KEY.C:
 			holdCurrentPiece();
 			break;
+		case KEY.M:
+			if (body.classList.contains("muted")) {
+				body.classList.remove("muted");
+				audio.volume = 1;
+			} else {
+				body.classList.add("muted");
+				audio.volume = 0;
+			}
+			break;
 	}
 });
 
@@ -690,18 +699,18 @@ const buttons = {
 		const body = document.querySelector("body");
 		body.classList.toggle("muted");
 		if (body.classList.contains("muted")) {
-			pauseMusic();
+			audio.volume = 0;
 		} else {
-			playMusic();
+			audio.volume = 1;
 		}
 	},
 	"btn-audio": () => {
 		const body = document.querySelector("body");
 		body.classList.toggle("muted");
 		if (body.classList.contains("muted")) {
-			pauseMusic();
+			audio.volume = 0;
 		} else {
-			playMusic();
+			audio.volume = 1;
 		}
 	},
 	"btn-new-game": () => {
