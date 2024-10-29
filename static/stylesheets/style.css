@@ -289,20 +289,25 @@ body.muted i.fa-volume-xmark {
 	gap: 1rem;
 }
 
-.how-to-header {
+.how-to-title {
+	align-self: center;
+	padding: 0;
+	margin: 0;
+	margin-bottom: 20px;
+}
+
+.how-to-controls-wrapper {
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
 	align-items: center;
-	gap: 3rem;
+	gap: 1rem;
 }
 
-.how-to-content > table > tbody > tr > td > .game-button.space {
-	margin-top: inherit;
-}
-
-.how-to-content > table {
-	margin: 0 auto;
-	border-spacing: 1rem 1rem;
+.how-to-control-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
 }
 
 .pause-content {
