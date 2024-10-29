@@ -528,7 +528,6 @@ body.muted i.fa-volume-xmark {
 }
 
 .game-info.next-queue::after,
-.game-info.level::after,
 .game-info.hold-block::after {
 	background: none;
 	mask-image: none;
@@ -669,6 +668,7 @@ body.muted i.fa-volume-xmark {
 
 .heading.game-over {
 	text-shadow: #1a1a1a 10px 10px 0px, #1a1a1a 0 0 10px, white 0 0 20px, white 0 0 30px, white 0 0 40px;
+	text-wrap: nowrap;
 	/* animation: glowGameOver 1.5s ease-in-out infinite alternate; */
 }
 
@@ -740,7 +740,7 @@ body.muted i.fa-volume-xmark {
 /*  RESPONSIVENESS MEDIA QUERY  */
 @media only screen and (max-width: 425px) {
 	.heading {
-		font-size: 4rem;
+		font-size: 3rem;
 	}
 
 	.sub-heading {
@@ -787,9 +787,4 @@ body.muted i.fa-volume-xmark {
 	.setting-section button {
 		margin-bottom: 15px;
 	}
-
-	/* .how-to,
-	#btn-help {
-		display: none;
-	} */
 }
