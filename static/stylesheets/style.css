@@ -127,14 +127,13 @@ html {
 	justify-content: center;
 	margin: 0 auto;
 	width: 80%;
-	height: 100%;
-	gap: 2rem;
+	height: 100vh;
+	gap: 1rem;
 }
 
 .game-container .heading {
 	font-size: 6rem;
 	margin: 0;
-	padding-top: 2rem;
 }
 
 /* GAME INFO / BOARD / SCORES / CONTROLS CONTAINER */
@@ -146,19 +145,16 @@ html {
 	background-color: #1a1a1a;
 	border: 10px dotted #3533cd;
 	border-radius: 30px;
-	padding: 1rem;
+	padding: 0 1rem;
 	z-index: 99;
-	height: 100%;
-	max-height: 690px;
-	/* box-shadow: -10px 10px 20px #dbdfe2, 10px -10px 20px #fdffff; */
 }
 
 .info-section {
-	padding: 10px;
 	display: flex;
+	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	gap: 1rem;
+	padding: 10px;
 }
 
 .game-button {
@@ -178,9 +174,10 @@ html {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	gap: 0.1rem;
 	position: relative;
-	padding-bottom: 20px;
+	padding: 10px 5px;
 }
 
 .game-info::after {
@@ -261,7 +258,6 @@ html {
 .hold-piece div {
 	width: 20px;
 	height: 20px;
-	/* box-sizing: border-box; */
 	border-radius: 4px;
 }
 
@@ -287,18 +283,15 @@ html {
 .board-section {
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
-	/* gap: 1px; */
-	margin: auto;
+	margin: 0 auto;
 	border-radius: 10px;
 	border: 4px dotted #3533cd;
-	/* background: linear-gradient(to bottom, #737373 50%, #3533cd 100%); */
-	/* box-shadow: inset -5px 5px 8px #d4d8db, inset 5px -5px 8px #ffffff; */
 }
 
 /* MAIN GAME GRID INDIVIDUAL CELLS */
 .block {
-	width: 20px;
-	height: 20px;
+	width: 15px;
+	height: 15px;
 	border: 4px solid rgb(54, 42, 137, 0.4);
 	border-top-color: rgba(54, 42, 137, 0.1);
 	border-right-color: rgba(54, 42, 137, 0.5);
@@ -310,11 +303,12 @@ html {
 /* RIGHT-INFO SECTION PANEL */
 .lives {
 	font-size: 24px;
+	padding-bottom: 10px;
 }
 
 .scores-wrapper {
 	display: flex;
-	gap: 1rem;
+	gap: 2rem;
 	justify-content: center;
 	position: relative; /* Required for positioning the pseudo-element */
 	padding-bottom: 20px; /* Space between text and border */
@@ -345,7 +339,8 @@ html {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 1rem;
+	padding: 10px;
+	gap: 0.5rem;
 }
 
 .control-buttons-wrapper {
@@ -403,6 +398,7 @@ html {
 
 .heading.game-over {
 	text-shadow: #1a1a1a 10px 10px 0px, #1a1a1a 0 0 10px, white 0 0 20px, white 0 0 30px, white 0 0 40px;
+	text-wrap: nowrap;
 	/* animation: glowGameOver 1.5s ease-in-out infinite alternate; */
 }
 
@@ -540,7 +536,8 @@ body.muted i.fa-volume-xmark {
 	gap: 3rem;
 }
 
-.pause-dialog, .how-to-dialog {
+.pause-dialog,
+.how-to-dialog {
 	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 30%, rgba(53, 51, 205, 0.5) 100%);
 	border: none;
 	border-radius: 30px;
@@ -548,7 +545,8 @@ body.muted i.fa-volume-xmark {
 	color: #fff;
 }
 
-.pause-dialog::backdrop, .how-to-dialog::backdrop {
+.pause-dialog::backdrop,
+.how-to-dialog::backdrop {
 	background-color: rgba(0, 0, 0, 0.5);
 }
 
