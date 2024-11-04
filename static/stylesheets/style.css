@@ -275,7 +275,7 @@ html {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 10px;
+	padding-block: 10px;
 	border-left: 8px dotted #3533cd;
 	border-right: 8px dotted #3533cd;
 }
@@ -655,53 +655,135 @@ body.muted i.fa-volume-xmark {
 }
 
 /*  RESPONSIVENESS MEDIA QUERY  */
-@media only screen and (max-width: 425px) {
+@media only screen and (max-width: 600px) {
 	.heading {
 		font-size: 4rem;
 	}
-
 	.sub-heading {
 		font-size: 1.2rem;
 	}
-
-	.main-menu-wrapper {
-		width: 60%;
-		height: 15%;
-		border-radius: unset;
+	.main-menu-wrapper,
+	.main-menu-wrapper.game-over {
+		width: 70%;
+		border-radius: 20px;
 		box-shadow: unset;
 	}
-
-	.main-menu-options {
-		font-size: 0.8rem;
+	.main-menu-wrapper::after,
+	.main-menu-wrapper.game-over::after {
+		border-radius: 20px;
 	}
-
+	.main-menu-options {
+		font-size: 1rem;
+	}
+	.heading.game-over {
+		font-size: 3rem;
+		text-wrap: nowrap;
+	}
+	.game-container {
+		width: 100%;
+		gap: 1rem;
+	}
+	.game-container .heading {
+		font-size: 4rem;
+		margin-top: 15px;
+	}
+	.game-wrapper {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+		/* grid-template-rows: 1fr; */
+		/* grid-gap: 0.5rem; */
+		padding: 0;
+		border-width: 5px;
+		margin: 0;
+	}
+	.board-container {
+		grid-area: 2 / 1 / 3 / 1;
+		border: none;
+		padding-left: 50px;
+	}
+	.board-section {
+		margin: 0;
+	}
 	.block {
 		width: 15px;
 		height: 15px;
 	}
+	.info-section {
+		grid-area: 1 / 1 / 2 / 1;
+		padding: 20px 0 0 50px;
+	}
+	.info-section.right {
+		grid-area: 1 / 2 / span 3 / 2;
+		padding: 0 0 0 30px;
+	}
+	.next-queue {
+		display: none;
+		width: 90px;
+		height: 90px;
+	}
+	.hold-block {
+		display: none;
+		width: 90px;
+		height: 80px;
+	}
+	.lives {
+		font-size: 1.3rem;
+	}
+	.scores-wrapper,
+	.scores-wrapper span {
+		font-size: 0.8rem;
+		gap: 0.8rem;
+	}
+	.game-info {
+		font-size: 0.8rem;
+		gap: 0.1rem;
+	}
+	.game-info span:nth-child(1) {
+		font-size: 0.8rem;
+	}
+	.scores-wrapper,
+	.game-info {
+		padding: 20px 0 20px 0;
+	}
+	.controls {
+		grid-area: span 1 / 2 / span 3 / 2;
+		padding: 20px;
+	}
+	#btn-hold {
+		display: none;
+	}
+}
 
+@media only screen and (max-width: 320px) {
+	.game-container {
+		gap: 0.5rem;
+	}
+	.game-container .heading {
+		font-size: 2.5rem;
+		margin-top: 10px;
+	}
 	.game-wrapper {
-		box-shadow: unset;
-		border-radius: unset;
-		padding-bottom: 10px;
+		border-width: 4px;
 	}
-
-	.setting-section {
-		padding: unset;
-		margin-top: -40px;
+	.board-container {
+		padding-left: 20px;
 	}
-
-	.play .setting-section {
-		position: absolute;
-		flex-direction: column;
-		bottom: unset;
-		top: 50%;
-		transform: translateY(-50%);
-		right: 2px;
-		padding: unset;
+	.board-section {
+		margin: 0;
 	}
-
-	.setting-section button {
-		margin-bottom: 15px;
+	.block {
+		width: 8px;
+		height: 8px;
+	}
+	.info-section {
+		padding: 15px 0 0 20px;
+	}
+	.info-section.right {
+		padding: 0 8px 0 0;
+	}
+	.lives,
+	.scores-wrapper,
+	.game-info {
+		padding: 10px 0 10px 0;
 	}
 }
