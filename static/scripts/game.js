@@ -27,9 +27,12 @@ const newGrid = (width, height) => {
 	};
 };
 
-const audio = document.querySelector("audio");
-audio.currentTime = 0.5;
-audio.loop = true;
+const mainTheme = new Audio("/static/assets/audio/tetris.mp3");
+mainTheme.currentTime = 0.5;
+mainTheme.loop = true;
+
+const gameOverTheme = new Audio("/static/assets/audio/game-over.mp3");
+gameOverTheme.volume = 0.2;
 
 const highScore = parseInt(localStorage.getItem("highScore"));
 
@@ -321,14 +324,14 @@ const calculateBlockSize = () => {
 	const minSize = 10; // Minimum block size in pixels
 	const maxSize = 15; // Maximum block size in pixels
 	const baseWidth = 1024; // Base window width for scaling
-	
+
 	const size = Math.floor((windowWidth / baseWidth) * 30);
 	return Math.min(Math.max(size, minSize), maxSize);
 };
 
 const updateNextQueue = () => {
 	const blockSize = calculateBlockSize();
-	
+
 	for (let i = 0; i < 3; i++) {
 		const nextPieceElement = document.querySelector(`#next-piece-${i + 1}`);
 		nextPieceElement.innerHTML = "";
@@ -358,7 +361,7 @@ const updateHoldQueue = () => {
 	const blockSize = calculateBlockSize();
 	const holdPieceElement = document.querySelector(".hold-piece");
 	holdPieceElement.innerHTML = "";
-	
+
 	if (holdPiece) {
 		const maxSize = Math.max(holdPiece.block.length, holdPiece.block[0].length);
 		holdPieceElement.style.gridTemplateColumns = `repeat(${maxSize}, ${blockSize}px)`;
@@ -379,7 +382,7 @@ const updateHoldQueue = () => {
 	}
 };
 
-window.addEventListener('resize', () => {
+window.addEventListener("resize", () => {
 	updateNextQueue();
 	updateHoldQueue();
 });
@@ -508,6 +511,8 @@ const gameLoop = timestamp => {
 const endGame = () => {
 	pauseMusic();
 
+	gameOverTheme.play();
+
 	if (!highScore || game.score > highScore) {
 		localStorage.setItem("highScore", game.score);
 	}
@@ -546,7 +551,7 @@ const gameStart = () => {
 
 	document.body.classList.add("play");
 	document.querySelector(".main-menu-container").setAttribute("style", "display: none");
-	audio.currentTime = 0;
+	mainTheme.currentTime = 0;
 	playMusic();
 };
 
@@ -625,7 +630,7 @@ const gameReset = () => {
 	tetromino = null;
 	holdPiece = null;
 	document.querySelector("#time").innerHTML = "00:00:00"; // Reset timer display
-	audio.currentTime = 0;
+	mainTheme.currentTime = 0;
 };
 
 const continueGame = () => {
@@ -636,11 +641,11 @@ const continueGame = () => {
 };
 
 const playMusic = () => {
-	audio.play();
+	mainTheme.play();
 };
 
 const pauseMusic = () => {
-	audio.pause();
+	mainTheme.pause();
 };
 
 // add keyboard event
@@ -683,10 +688,12 @@ document.addEventListener("keydown", e => {
 		case KEY.M:
 			if (body.classList.contains("muted")) {
 				body.classList.remove("muted");
-				audio.volume = 1;
+				mainTheme.volume = 1;
+				gameOverTheme.volume = 0.2;
 			} else {
 				body.classList.add("muted");
-				audio.volume = 0;
+				mainTheme.volume = 0;
+				gameOverTheme.volume = 0;
 			}
 			break;
 	}
@@ -727,18 +734,22 @@ const buttons = {
 		const body = document.querySelector("body");
 		body.classList.toggle("muted");
 		if (body.classList.contains("muted")) {
-			audio.volume = 0;
+			mainTheme.volume = 0;
+			gameOverTheme.volume = 0;
 		} else {
-			audio.volume = 1;
+			mainTheme.volume = 1;
+			gameOverTheme.volume = 0.2;
 		}
 	},
 	"btn-audio": () => {
 		const body = document.querySelector("body");
 		body.classList.toggle("muted");
 		if (body.classList.contains("muted")) {
-			audio.volume = 0;
+			mainTheme.volume = 0;
+			gameOverTheme.volume = 0;
 		} else {
-			audio.volume = 1;
+			mainTheme.volume = 1;
+			gameOverTheme.volume = 0.2;
 		}
 	},
 	"btn-new-game": () => {
