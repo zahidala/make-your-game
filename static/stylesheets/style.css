@@ -213,9 +213,9 @@ html {
 	color: #737373;
 }
 
-.game-info.next-queue,
-.game-info.hold-block {
-	gap: 0.5rem;
+.game-info.next-queue {
+    margin-top: 40px;
+    margin-bottom: 20px;
 }
 
 .game-info.next-queue::after,
@@ -226,18 +226,19 @@ html {
 
 .game-info span:nth-child(1) {
 	font-size: 1.2rem;
+    margin-bottom: 20px;
 }
 
 .next-queue,
 .hold-block {
-	width: 100%;
+	width: 80%;
 	border: 4px dotted #3533cd;
 	border-radius: 10px;
 	margin: 10px 0;
 }
 
 .next-queue {
-	height: 200px;
+	height: 180px;
 }
 
 .hold-block {
@@ -249,25 +250,12 @@ html {
 	width: 50px;
 	height: 50px;
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: repeat(4, 1fr);
 	transform: rotate(90deg);
 }
 
 .next-piece div,
 .hold-piece div {
-	width: 20px;
-	height: 20px;
 	border-radius: 4px;
-}
-
-#next-piece-1,
-#next-piece-2,
-#next-piece-3,
-#hold-piece {
-	width: 50px;
-	height: 50px;
-	display: grid;
 }
 
 /* MAIN GAME GRID SECTION */
@@ -476,7 +464,6 @@ body.muted i.fa-volume-xmark {
 }
 
 /* PAUSE DIALOG */
-
 .pause-content {
 	display: flex;
 	flex-direction: column;
@@ -596,7 +583,6 @@ body.muted i.fa-volume-xmark {
 }
 
 .play .main-menu-container {
-	/* transform: scale(0); */
 	display: none;
 }
 
@@ -655,6 +641,16 @@ body.muted i.fa-volume-xmark {
 }
 
 /*  RESPONSIVENESS MEDIA QUERY  */
+@media only screen and (max-width: 768px) {
+    .game-container .heading {
+		font-size: 6rem;
+        margin-bottom: 20px;
+	}
+    .game-container {
+        width: 95%
+    }
+}
+
 @media only screen and (max-width: 600px) {
 	.heading {
 		font-size: 4rem;
@@ -690,8 +686,6 @@ body.muted i.fa-volume-xmark {
 	.game-wrapper {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-		/* grid-template-rows: 1fr; */
-		/* grid-gap: 0.5rem; */
 		padding: 0;
 		border-width: 5px;
 		margin: 0;
@@ -718,13 +712,13 @@ body.muted i.fa-volume-xmark {
 	}
 	.next-queue {
 		display: none;
-		width: 90px;
-		height: 90px;
+		width: 80px;
+		height: 100px;
 	}
 	.hold-block {
 		display: none;
-		width: 90px;
-		height: 80px;
+		width: 80px;
+		height: 25px;
 	}
 	.lives {
 		font-size: 1.3rem;
@@ -786,4 +780,10 @@ body.muted i.fa-volume-xmark {
 	.game-info {
 		padding: 10px 0 10px 0;
 	}
+    .game-info span:nth-child(1) {
+        margin-bottom: 0;
+    }
+    .controls {
+        padding: 0;
+    }
 }

@@ -316,15 +316,27 @@ const generateNextPieces = () => {
 	}
 };
 
+const calculateBlockSize = () => {
+	const windowWidth = window.innerWidth;
+	const minSize = 10; // Minimum block size in pixels
+	const maxSize = 15; // Maximum block size in pixels
+	const baseWidth = 1024; // Base window width for scaling
+	
+	const size = Math.floor((windowWidth / baseWidth) * 30);
+	return Math.min(Math.max(size, minSize), maxSize);
+};
+
 const updateNextQueue = () => {
+	const blockSize = calculateBlockSize();
+	
 	for (let i = 0; i < 3; i++) {
 		const nextPieceElement = document.querySelector(`#next-piece-${i + 1}`);
 		nextPieceElement.innerHTML = "";
 		if (nextPieces[i]) {
 			const piece = nextPieces[i];
 			const maxSize = Math.max(piece.block.length, piece.block[0].length);
-			nextPieceElement.style.gridTemplateColumns = `repeat(${maxSize}, 1fr)`;
-			nextPieceElement.style.gridTemplateRows = `repeat(${maxSize}, 1fr)`;
+			nextPieceElement.style.gridTemplateColumns = `repeat(${maxSize}, ${blockSize}px)`;
+			nextPieceElement.style.gridTemplateRows = `repeat(${maxSize}, ${blockSize}px)`;
 
 			for (let j = 0; j < maxSize; j++) {
 				for (let k = 0; k < maxSize; k++) {
@@ -332,6 +344,8 @@ const updateNextQueue = () => {
 					if (piece.block[j] && piece.block[j][k] > 0) {
 						block.style.backgroundColor = piece.color;
 						block.classList.add("tetromino-block");
+						block.style.width = `${blockSize}px`;
+						block.style.height = `${blockSize}px`;
 					}
 					nextPieceElement.appendChild(block);
 				}
@@ -341,12 +355,14 @@ const updateNextQueue = () => {
 };
 
 const updateHoldQueue = () => {
+	const blockSize = calculateBlockSize();
 	const holdPieceElement = document.querySelector(".hold-piece");
 	holdPieceElement.innerHTML = "";
+	
 	if (holdPiece) {
 		const maxSize = Math.max(holdPiece.block.length, holdPiece.block[0].length);
-		holdPieceElement.style.gridTemplateColumns = `repeat(${maxSize}, 1fr)`;
-		holdPieceElement.style.gridTemplateRows = `repeat(${maxSize}, 1fr)`;
+		holdPieceElement.style.gridTemplateColumns = `repeat(${maxSize}, ${blockSize}px)`;
+		holdPieceElement.style.gridTemplateRows = `repeat(${maxSize}, ${blockSize}px)`;
 
 		for (let i = 0; i < maxSize; i++) {
 			for (let j = 0; j < maxSize; j++) {
@@ -354,12 +370,19 @@ const updateHoldQueue = () => {
 				if (holdPiece.block[i] && holdPiece.block[i][j] > 0) {
 					block.style.backgroundColor = holdPiece.color;
 					block.classList.add("tetromino-block");
+					block.style.width = `${blockSize}px`;
+					block.style.height = `${blockSize}px`;
 				}
 				holdPieceElement.appendChild(block);
 			}
 		}
 	}
 };
+
+window.addEventListener('resize', () => {
+	updateNextQueue();
+	updateHoldQueue();
+});
 
 const holdCurrentPiece = () => {
 	if (!canHold) return;
